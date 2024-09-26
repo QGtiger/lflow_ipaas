@@ -1,4 +1,4 @@
-import { message, Modal, notification, Result } from "antd";
+import { Button, message, Modal, notification, Result } from "antd";
 import { useEffect, useRef } from "react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -18,7 +18,16 @@ const FallbackComponent = (props: any) => {
           status="500"
           title="500"
           subTitle={props.error.message}
-          // extra={<Button type="primary">Back Home</Button>}
+          extra={
+            <Button
+              type="primary"
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              刷新
+            </Button>
+          }
         />
       </div>
     </div>
