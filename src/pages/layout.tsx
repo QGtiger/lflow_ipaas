@@ -1,4 +1,4 @@
-import { ConfigProvider, message, Modal, notification, Result } from "antd";
+import { message, Modal, notification, Result } from "antd";
 import { useEffect, useRef } from "react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -56,17 +56,15 @@ export default function Layout() {
 
   return (
     <ErrorBoundary FallbackComponent={FallbackComponent}>
-      <ConfigProvider prefixCls="ipaas">
-        <QueryClientProvider client={queryClient}>
-          {outlet}
-          <ReactQueryDevtools />
-          <div className="holder" ref={holderRef}>
-            {contextHolder}
-            {messageContextHolder}
-            {notificationHolder}
-          </div>
-        </QueryClientProvider>
-      </ConfigProvider>
+      <QueryClientProvider client={queryClient}>
+        {outlet}
+        <ReactQueryDevtools />
+        <div className="holder" ref={holderRef}>
+          {contextHolder}
+          {messageContextHolder}
+          {notificationHolder}
+        </div>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }

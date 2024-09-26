@@ -1,50 +1,25 @@
-# React + TypeScript + Vite
+qiankun 微前端解决方案： https://qiankun.umijs.org/zh
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+https://github.com/tengmaoqing/vite-plugin-qiankun/blob/master/readme.md
 
-Currently, two official plugins are available:
+## 问题 QA
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Q:@vitejs/plugin-react 有什么用
 
-## Expanding the ESLint configuration
+快速重载：在开发环境中，它使得组件能够更快速地重新加载，特别是在你修改组件代码后。
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+代码转换：它处理 JSX 和 TypeScript 代码的转换，确保它们能够被浏览器正确解析。
 
-- Configure the top-level `parserOptions` property like this:
+模块热替换（HMR）：在开发环境中，它支持模块热替换，这意味着你可以在不刷新整个页面的情况下，看到组件的实时更新。
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+构建优化：在构建过程中，它能够优化 React 组件的代码，减少最终构建包的大小。
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+静态资源处理：它能够正确处理 CSS 和图片等静态资源的导入。
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+vite.config.js 里面需要在开发中注释掉 react() 否则会报错
+plugins: [
+isDevMode ? [] : react(),
+qiankun("micro-ipaas", {
+useDevMode: isDevMode, // 根据当前命令动态设置 useDevMode
+}),
+]

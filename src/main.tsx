@@ -8,6 +8,14 @@ import {
 } from "react-router-dom";
 import CommonLayout from "./components/CommonLayout";
 import { layoutMap, notFoundMap, routeMap } from "./glob";
+import {
+  QiankunProps,
+  qiankunWindow,
+  renderWithQiankun,
+} from "vite-plugin-qiankun/dist/helper";
+import React from "react";
+
+window.React = React;
 
 import "./index.css";
 
@@ -98,7 +106,9 @@ function initRoutes() {
 
 const routes = initRoutes();
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {
+  basename: qiankunWindow.__POWERED_BY_QIANKUN__ ? "/ipaas" : "/",
+});
 console.log(routes);
 
 const queryClient = new QueryClient({
@@ -109,10 +119,40 @@ const queryClient = new QueryClient({
   },
 });
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ConfigProvider prefixCls="lflow">
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </ConfigProvider>
-);
+let app: ReactDOM.Root | undefined;
+
+function render(props: any) {
+  console.log(props);
+  const { container } = props;
+  const containerDom = container
+    ? container.querySelector("#root")
+    : document.getElementById("root");
+  app = ReactDOM.createRoot(containerDom);
+  app.render(
+    <ConfigProvider prefixCls="ipaas">
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ConfigProvider>
+  );
+}
+
+renderWithQiankun({
+  bootstrap() {
+    console.log("微应用启动");
+  },
+  mount(props) {
+    render(props);
+  },
+  unmount() {
+    app?.unmount();
+    app = undefined;
+  },
+  update: function (props: QiankunProps): void | Promise<void> {
+    console.log("update", props);
+  },
+});
+
+if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
+  render({});
+}
