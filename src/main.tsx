@@ -6,9 +6,10 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import "./index.css";
 import CommonLayout from "./components/CommonLayout";
 import { layoutMap, notFoundMap, routeMap } from "./glob";
+
+import "./index.css";
 
 type ReactFunctionComponent = (props: any) => JSX.Element | null;
 
@@ -17,9 +18,7 @@ const handlePath = (path: string) => {
 };
 
 // 生成组件
-function generateComp(
-  ModuleComp: ReactFunctionComponent = CommonLayout,
-) {
+function generateComp(ModuleComp: ReactFunctionComponent = CommonLayout) {
   return ModuleComp;
 }
 
@@ -45,9 +44,7 @@ function initRoutes() {
 
     const LayoutComp = generateComp(layoutMap[layoutUrl]?.default);
     // 页面 settings
-    const PageComp = generateComp(
-      routeMap[pageUrl]?.default
-    );
+    const PageComp = generateComp(routeMap[pageUrl]?.default);
     const NotFoundComp = notFoundMap[notFoundUrl]?.default;
 
     let route = routes.find((item) => item.path === handlePath(path));
@@ -113,9 +110,9 @@ const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-        <ConfigProvider prefixCls="lflow">
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
-        </ConfigProvider>
+  <ConfigProvider prefixCls="lflow">
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </ConfigProvider>
 );
