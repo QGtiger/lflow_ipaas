@@ -1,8 +1,6 @@
-import { request } from "@/api/request";
 import Empty from "@/components/Empty";
 import { IpaasFormSchema } from "@/components/IPaasSchemaForm/type";
 import PageContainer from "@/components/PageContainer";
-import { createMessage } from "@/utils/customMessage";
 // import { editorConnetorSchema } from '@/constant/schema';
 import { createModal, createSchemaFormModal } from "@/utils/customModal";
 import {
@@ -137,7 +135,7 @@ export default function Overview() {
         schema: editorConnetorSchema,
         async onFinished(values) {
           console.log(values);
-          return;
+          return addConnectorMutateAsync();
         },
       });
       // createMessage({

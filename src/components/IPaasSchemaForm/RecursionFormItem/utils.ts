@@ -6,6 +6,7 @@ export function replaceHtmlATagsWithMarkdown(str: string) {
     /<a\s+(?:[^>]*?\s+)?href="([^"]*)"(\s+title="([^"]*)")?([^>]*)?>(.*?)<\/a>/gi;
 
   // 使用正则表达式和替换函数进行替换
+  // @ts-expect-error declard but never used
   return str.replace(regex, (match, href, title, titleText, rest, linkText) => {
     // 如果有title属性，使用title文本作为链接文本
     const linkTextToUse = titleText || linkText.trim();
