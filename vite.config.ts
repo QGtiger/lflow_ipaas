@@ -32,6 +32,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 8000,
       host: "0.0.0.0",
+      // 微应用静态资源请求代理
       origin: "http://localhost:8000",
     },
   };

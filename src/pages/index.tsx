@@ -1,8 +1,10 @@
+import { request } from "@/api/request";
 import Empty from "@/components/Empty";
+import { IpaasFormSchema } from "@/components/IPaasSchemaForm/type";
 import PageContainer from "@/components/PageContainer";
 import { createMessage } from "@/utils/customMessage";
 // import { editorConnetorSchema } from '@/constant/schema';
-import { createModal } from "@/utils/customModal";
+import { createModal, createSchemaFormModal } from "@/utils/customModal";
 import {
   ExclamationCircleFilled,
   MoreOutlined,
@@ -14,6 +16,56 @@ import { useReactive, useThrottleFn } from "ahooks";
 import { Button, Dropdown, Pagination, Spin } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+const editorConnetorSchema: IpaasFormSchema[] = [
+  {
+    code: "logo",
+    name: "连接器图标",
+    type: "string",
+    required: true,
+    editor: {
+      kind: "Upload",
+      config: {},
+    },
+  },
+  {
+    code: "name",
+    name: "连接器名称",
+    type: "string",
+    description: "名称可以由数字、英文、下划线组成，最长 30个字符",
+    required: true,
+    validateRules: `function main(value) {
+    if (!value) {
+        return "请输入名称";
+      } else if (value.length > 30) {
+        return "最多输入30个字符";
+      }
+    }`,
+    editor: {
+      kind: "Input",
+    },
+  },
+  {
+    code: "description",
+    name: "描述",
+    type: "string",
+    description: "名称可以由数字、英文、下划线组成，最长 150个字符",
+    required: true,
+    editor: {
+      kind: "Textarea",
+      config: {},
+    },
+  },
+  {
+    code: "documentLink",
+    name: "帮助文档",
+    type: "string",
+    description: "请输入文档地址链接",
+    editor: {
+      kind: "Input",
+    },
+  },
+];
 
 async function addConnector() {}
 
@@ -80,11 +132,23 @@ export default function Overview() {
 
   const { run: onAddConnector } = useThrottleFn(
     () => {
-      createMessage({
-        type: "info",
-        content: "新建连接器",
+      createSchemaFormModal({
+        title: "新建连接器",
+        schema: editorConnetorSchema,
+        async onFinished(values) {
+          console.log(values);
+          return;
+        },
       });
-      addConnectorMutateAsync();
+      // createMessage({
+      //   type: "info",
+      //   content: "新建连接器",
+      // });
+      // request({
+      //   url: "/ipaas/connector",
+      //   method: "post",
+      // });
+      // addConnectorMutateAsync();
     },
     {
       wait: 1000,
