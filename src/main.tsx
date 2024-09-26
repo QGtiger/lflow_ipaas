@@ -13,6 +13,8 @@ import {
   qiankunWindow,
   renderWithQiankun,
 } from "vite-plugin-qiankun/dist/helper";
+import zhCN from "antd/locale/zh_CN";
+
 import React from "react";
 
 window.React = React;
@@ -129,7 +131,7 @@ function render(props: any) {
     : document.getElementById("root");
   app = ReactDOM.createRoot(containerDom);
   app.render(
-    <ConfigProvider prefixCls="ipaas">
+    <ConfigProvider prefixCls="ipaas" locale={zhCN}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>

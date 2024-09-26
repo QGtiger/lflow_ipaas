@@ -101,24 +101,25 @@ export default function RecursionFormItem({
           {
             validator(_, value) {
               return new Promise<void>((r, j) => {
+                let errorMessages = "";
                 // 必填校验
                 if (payload.required) {
                   if (value === undefined || value === null || value === "") {
-                    j(new Error("请输入"));
+                    errorMessages = "请输入";
                   }
                 }
-
                 if (payload.validateRules) {
-                  const [suc, errorMsg] = excuteScriptByValidateRules(
-                    payload.validateRules,
-                    value
-                  );
+                  const [suc, errorMsg = "校验错误"] =
+                    excuteScriptByValidateRules(payload.validateRules, value);
                   if (!suc) {
-                    j(new Error(errorMsg));
+                    errorMessages = errorMsg;
                   }
+                }
+                if (errorMessages) {
+                  j(new Error(errorMessages));
+                } else {
                   r();
                 }
-                r();
               });
             },
           },

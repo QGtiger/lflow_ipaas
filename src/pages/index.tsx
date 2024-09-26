@@ -34,9 +34,9 @@ const editorConnetorSchema: IpaasFormSchema[] = [
     required: true,
     validateRules: `function main(value) {
     if (!value) {
-        return "请输入名称";
+        throw new Error("请输入连接器名称");
       } else if (value.length > 30) {
-        return "最多输入30个字符";
+        throw new Error("连接器名称最长 30 个字符");
       }
     }`,
     editor: {
