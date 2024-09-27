@@ -29,6 +29,7 @@ export const IPaasSchemaForm = forwardRef<FormInstance, IPaasSchemaFormProps>(
           form={form}
           layout="vertical"
           autoComplete="off"
+          {...props}
           onValuesChange={(c, v) => {
             props.onValuesChange?.(c, v);
             // 子表单change 不会导致父组件更新
