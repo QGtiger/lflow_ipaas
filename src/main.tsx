@@ -20,6 +20,7 @@ import React from "react";
 window.React = React;
 
 import "./index.css";
+import { clientConfig } from "./api/request";
 
 type ReactFunctionComponent = (props: any) => JSX.Element | null;
 
@@ -144,6 +145,10 @@ renderWithQiankun({
     console.log("微应用启动");
   },
   mount(props) {
+    // 传递请求实例
+    if (props.requestClient) {
+      clientConfig.ins = props.requestClient;
+    }
     render(props);
   },
   unmount() {

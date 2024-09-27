@@ -2,10 +2,14 @@ import { AxiosRequestConfig } from "axios";
 
 import { client } from ".";
 
+export const clientConfig = {
+  ins: client,
+};
+
 export const request = async <T = any>(
   options: AxiosRequestConfig
 ): Promise<T> => {
-  return client(options);
+  return clientConfig.ins(options);
 };
 
 export interface BaseResponse<T> {

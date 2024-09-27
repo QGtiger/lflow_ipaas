@@ -1,5 +1,5 @@
+import { request } from "@/api/request";
 import Empty from "@/components/Empty";
-import { IpaasFormSchema } from "@/components/IPaasSchemaForm/type";
 import PageContainer from "@/components/PageContainer";
 // import { editorConnetorSchema } from '@/constant/schema';
 import { createModal, createSchemaFormModal } from "@/utils/customModal";
@@ -10,110 +10,52 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useReactive, useThrottleFn } from "ahooks";
-import { Button, Dropdown, Pagination, Spin } from "antd";
-import { useEffect } from "react";
+import { useThrottleFn } from "ahooks";
+import { Button, Dropdown, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
+import { editorConnetorSchema } from "./schema";
 
-const editorConnetorSchema: IpaasFormSchema[] = [
-  {
-    code: "logo",
-    name: "连接器图标",
-    type: "string",
-    required: true,
-    editor: {
-      kind: "Upload",
-      config: {},
-    },
-  },
-  {
-    code: "name",
-    name: "连接器名称",
-    type: "string",
-    description: "名称可以由数字、英文、下划线组成，最长 30个字符",
-    required: true,
-    validateRules: `function main(value) {
-    if (!value) {
-        throw new Error("请输入连接器名称");
-      } else if (value.length > 30) {
-        throw new Error("连接器名称最长 30 个字符");
-      }
-    }`,
-    editor: {
-      kind: "Input",
-    },
-  },
-  {
-    code: "description",
-    name: "描述",
-    type: "string",
-    description: "名称可以由数字、英文、下划线组成，最长 150个字符",
-    required: true,
-    editor: {
-      kind: "Textarea",
-      config: {},
-    },
-  },
-  {
-    code: "documentLink",
-    name: "帮助文档",
-    type: "string",
-    description: "请输入文档地址链接",
-    editor: {
-      kind: "Input",
-    },
-  },
-];
-
-async function addConnector() {}
-
-async function deleteConnector(opt: any) {
-  console.log(opt);
+async function addConnector(data: any) {
+  return request({
+    url: "/ipaas/connector",
+    method: "post",
+    data,
+  });
 }
 
-async function queryConnectorList(params: any): Promise<{
-  list: any[];
-  page: any;
-}> {
-  console.log(params);
-  return {
-    list: [],
-    page: {},
-  };
+async function deleteConnector(opt: { id: number }) {
+  return request({
+    url: `/ipaas/connector/${opt.id}`,
+    method: "delete",
+  });
 }
 
-function isPublished(p: any) {
-  console.log(p);
-  // TODO: 未实现
-  return false;
+async function queryConnectorList(): Promise<
+  {
+    id: number;
+    code: string;
+    creator: string;
+    name: string;
+    description: string;
+    logo: string;
+    ispublished: boolean;
+  }[]
+> {
+  return request({
+    url: "/ipaas/connector",
+    method: "get",
+  });
 }
 
 export default function Overview() {
-  const queryParams = useReactive({
-    page: 1,
-    size: 10,
-  });
-  const viewModel = useReactive({
-    total: 1,
-  });
   const nav = useNavigate();
 
   const { data, refetch, isLoading } = useQuery({
-    queryKey: ["customConnectors", queryParams],
+    queryKey: ["customConnectors"],
     queryFn: () => {
-      return queryConnectorList(queryParams);
+      return queryConnectorList();
     },
   });
-
-  useEffect(() => {
-    if (data) {
-      viewModel.total = data.page.total;
-      // 没有数据的话，就请求最后一页数据
-      if (!data.list?.length && data.page.pages > 0) {
-        queryParams.page = data.page.pages;
-      }
-    }
-  }, [data]);
 
   const { mutateAsync: deleteConnectorMutateAsync } = useMutation({
     mutationKey: ["deleteConnector"],
@@ -134,19 +76,9 @@ export default function Overview() {
         title: "新建连接器",
         schema: editorConnetorSchema,
         async onFinished(values) {
-          console.log(values);
-          return addConnectorMutateAsync();
+          return addConnectorMutateAsync(values);
         },
       });
-      // createMessage({
-      //   type: "info",
-      //   content: "新建连接器",
-      // });
-      // request({
-      //   url: "/ipaas/connector",
-      //   method: "post",
-      // });
-      // addConnectorMutateAsync();
     },
     {
       wait: 1000,
@@ -163,84 +95,90 @@ export default function Overview() {
         </Button>
       }
     >
-      {viewModel.total > 0 ? (
+      {data?.length && data.length > 0 ? (
         <div className="flex flex-col gap-5 justify-between h-full">
-          <div className="content flex-1 h-2 overflow-auto">
+          <div className="content flex-1 h-2 ">
             <div className="grid grid-cols-4 gap-x-[16px] gap-y-[24px]">
               <div
                 onClick={onAddConnector}
-                className="flex shadow hover:shadow-lg cursor-pointer flex-col h-[143px] items-start gap-6 p-4 relative bg-white rounded-lg overflow-hidden border border-solid border-border"
+                className="flex shadow hover:shadow-lg border border-solid cursor-pointer flex-col h-[186px] items-start gap-6 p-4 relative  rounded-lg overflow-hidden  border-border transition-shadow"
               >
                 <div className="flex flex-col items-center justify-center gap-2 relative flex-1 self-stretch w-full grow text-[#3170FA]">
                   <PlusOutlined className="text-[28px]" />
-                  <div className="relative w-fit [font-family:'PingFang_SC-Regular',Helvetica] font-normal text-gj-0v-vz text-xs tracking-[0] leading-[normal]">
+                  <div className="relative w-fit [font-family:'PingFang_SC-Regular',Helvetica] font-normal text-gj-0v-vz text-sm tracking-[0] leading-[normal]">
                     新建连接器
                   </div>
                 </div>
               </div>
-              {data?.list.map((item) => {
+              {data.map((item) => {
                 return (
                   <div
                     key={item.code}
-                    className={`h-[143px] flex shadow hover:shadow-lg cursor-pointer flex-col items-start justify-between gap-6 p-4 relative bg-white rounded-lg overflow-hidden border border-solid border-border`}
+                    className={`h-[186px] flex hover:shadow-lg border border-solid cursor-pointer flex-col items-start justify-between gap-6 p-4 relative rounded-lg overflow-hidden  border-border transition-shadow`}
                     onClick={() => {
                       nav(`/manager/${item.code}/base`);
                     }}
                   >
-                    <div className="flex items-start gap-1 relative self-stretch w-full flex-[0_0_auto]">
-                      <img
-                        className="relative w-10 h-10 p-1"
-                        alt="logo"
-                        src={item.logo}
-                      />
-                      <div className="flex flex-col items-start justify-center gap-[13px] relative flex-1 self-stretch grow w-1">
-                        <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
-                          <div className="w-fit text-ellipsis-1 text-primary-black text-sm relative ">
-                            {item.name}
-                          </div>
-                          <div onClick={(e) => e.stopPropagation()}>
-                            <Dropdown
-                              menu={{
-                                items: [
-                                  {
-                                    key: "delete",
-                                    label: "删除连接器",
-                                    disabled: isPublished(item.status),
-                                    onClick: () => {
-                                      createModal({
-                                        title: `确认删除连接器: ${item.name}?`,
-                                        content: "删除后不可恢复",
-                                        icon: <ExclamationCircleFilled />,
-                                        onOk: async () => {
-                                          await deleteConnectorMutateAsync({
-                                            code: item.code,
-                                          });
-                                          refetch();
-                                        },
-                                      });
+                    <div className="w-full">
+                      <div className="flex items-start gap-1 relative self-stretch w-full flex-[0_0_auto]">
+                        <img
+                          className="relative w-10 h-10 p-1"
+                          alt="logo"
+                          src={item.logo}
+                        />
+                        <div className="flex flex-col items-start justify-center gap-[13px] relative flex-1 self-stretch grow w-1">
+                          <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
+                            <div className="w-fit text-ellipsis-1 text-primary-black text-sm relative ">
+                              {item.name}
+                            </div>
+                            <div onClick={(e) => e.stopPropagation()}>
+                              <Dropdown
+                                menu={{
+                                  items: [
+                                    {
+                                      key: "delete",
+                                      label: "删除连接器",
+                                      disabled: item.ispublished,
+                                      onClick: () => {
+                                        createModal({
+                                          title: `确认删除连接器: ${item.name}?`,
+                                          content: "删除后不可恢复",
+                                          icon: <ExclamationCircleFilled />,
+                                          onOk: async () => {
+                                            await deleteConnectorMutateAsync({
+                                              id: item.id,
+                                            });
+                                            refetch();
+                                          },
+                                        });
+                                      },
                                     },
-                                  },
-                                ],
-                              }}
-                            >
-                              <MoreOutlined className=" hover:bg-[#e4ebfd] rounded p-1" />
-                            </Dropdown>
+                                  ],
+                                }}
+                              >
+                                <MoreOutlined
+                                  className=" hover:bg-[#e4ebfd] rounded p-1"
+                                  rotate={90}
+                                />
+                              </Dropdown>
+                            </div>
                           </div>
-                        </div>
-                        <div className="text-ellipsis-2 text-secondary-grey text-xs relative ">
-                          {item.description}
                         </div>
                       </div>
+
+                      <div className="text-ellipsis-4 text-secondary-grey text-xs relative mt-2">
+                        {item.description}
+                      </div>
                     </div>
-                    <div className="flex items-start justify-between relative self-stretch w-full flex-[0_0_auto]">
-                      <div className="flex items-start gap-1 relative flex-1 grow  text-secondary-grey">
+                    <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
+                      <div className="flex items-center gap-1 relative flex-1 grow  text-secondary-grey">
                         <UserOutlined />
                         <div className="flex-1 text-secondary-grey text-xs relative font-normal tracking-[0] leading-[normal]">
-                          {item.creatorName}
+                          {item.creator}
                         </div>
                       </div>
                       <div className="inline-flex items-center gap-1 relative flex-[0_0_auto]">
-                        {isPublished(item.status) && (
+                        {item.ispublished && (
                           <>
                             <div className="inline-flex items-start gap-1 relative flex-[0_0_auto]">
                               <div className="inline-flex items-center justify-center gap-2.5 pt-px pb-0.5 px-2.5 relative flex-[0_0_auto] mt-[-1.00px] mb-[-1.00px] ml-[-1.00px] mr-[-1.00px] bg-[#eefdfb] rounded-[10px] overflow-hidden">
@@ -250,9 +188,7 @@ export default function Overview() {
                               </div>
                             </div>
                             <div className="inline-flex items-start gap-1 relative flex-[0_0_auto]">
-                              <div className="w-fit text-secondary-grey text-xs relative font-normal tracking-[0] leading-[normal]">
-                                {item.publishTime}
-                              </div>
+                              <div className="w-fit text-secondary-grey text-xs relative font-normal tracking-[0] leading-[normal]"></div>
                             </div>
                           </>
                         )}
@@ -262,17 +198,6 @@ export default function Overview() {
                 );
               })}
             </div>
-          </div>
-          <div className="pagination flex justify-end">
-            <Pagination
-              current={queryParams.page}
-              onChange={(p, s) => {
-                queryParams.page = p;
-                queryParams.size = s;
-              }}
-              total={viewModel.total}
-              pageSize={queryParams.size}
-            />
           </div>
         </div>
       ) : (

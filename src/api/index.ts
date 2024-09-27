@@ -1,8 +1,19 @@
 import axios from "axios";
 
 import { createNotification } from "@/utils/customNotification";
+import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
 
 const ACCESS_TOKEN_KEY = "access_token";
+
+const debugToken =
+  process.env.NODE_ENV === "production" || qiankunWindow.__POWERED_BY_QIANKUN__
+    ? ""
+    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJuYW1lIjoic3VpZmVuZyIsImVtYWlsIjoiMTA2OTU2ODY3M0BxcS5jb20iLCJpYXQiOjE3Mjc0MDc2MjcsImV4cCI6MTcyNzQ5NDAyN30.AUrMhwCiEIUa_J83ow0Fe8zz72ILkDMshxIOQR5z8xU";
+
+export const requestConfig = {
+  // 临时 token
+  tempToken: debugToken,
+};
 
 export const client = axios.create({
   baseURL: process.env.API_BASE_URL,
@@ -24,7 +35,8 @@ function getCuteMessage() {
 }
 
 client.interceptors.request.use((config) => {
-  const access_token = localStorage.getItem(ACCESS_TOKEN_KEY);
+  const access_token =
+    requestConfig.tempToken || localStorage.getItem(ACCESS_TOKEN_KEY);
   config.headers.Authorization = `Bearer ${access_token}`;
 
   return config;

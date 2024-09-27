@@ -3,6 +3,7 @@ import { createCustomModel } from "./common/createModel";
 import { ExtractEditorKinds } from "./type";
 import { Input, InputNumber, Select } from "antd";
 import useDefaultValue from "./hooks/useDefaultValue";
+import Upload from "./components/Upload";
 
 export interface IPaasSchemaFormStoreInfer {
   editorMap?: Record<string, (props: any) => React.ReactNode>;
@@ -34,7 +35,7 @@ export const IPaasSchemaFormStore = createCustomModel(
         Input: ExcludeEditorSchemaPropsByComponent(Input),
         InputNumber: ExcludeEditorSchemaPropsByComponent(InputNumber),
         Textarea: ExcludeEditorSchemaPropsByComponent(Input.TextArea),
-        Upload: () => <div>Upload</div>,
+        Upload,
         PlainText: () => <div>PlainText</div>,
         InputWithCopy: () => <div>InputWithCopy</div>,
         Select,
