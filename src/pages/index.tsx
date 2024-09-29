@@ -172,14 +172,14 @@ export default function Overview() {
                             </div>
                           </div>
 
-                          <div className="text-ellipsis-4 text-secondary-grey text-xs relative mt-2">
+                          <div className="text-ellipsis-4 text-gray-500 text-xs relative mt-2">
                             {item.description}
                           </div>
                         </div>
                         <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
-                          <div className="flex items-center gap-1 relative flex-1 grow  text-secondary-grey">
+                          <div className="flex items-center gap-1 relative flex-1 grow  text-gray-500">
                             <UserOutlined />
-                            <div className="flex-1 text-secondary-grey text-xs relative font-normal tracking-[0] leading-[normal]">
+                            <div className="flex-1 text-gray-500 text-xs relative font-normal tracking-[0] leading-[normal]">
                               {item.creator}
                             </div>
                           </div>
@@ -194,7 +194,7 @@ export default function Overview() {
                                   </div>
                                 </div>
                                 <div className="inline-flex items-start gap-1 relative flex-[0_0_auto]">
-                                  <div className="w-fit text-secondary-grey text-xs relative font-normal tracking-[0] leading-[normal]"></div>
+                                  <div className="w-fit text-gray-500 text-xs relative font-normal tracking-[0] leading-[normal]"></div>
                                 </div>
                               </>
                             )}

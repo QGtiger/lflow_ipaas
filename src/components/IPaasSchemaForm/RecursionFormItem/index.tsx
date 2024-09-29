@@ -51,7 +51,7 @@ function WrapperFieldComponent(props: {
           />
         </div>,
         payload.description && (
-          <div className="desc text-[#888f9d] mb-2">
+          <div className="desc text-[#888f9d] mb-2 text-xs">
             <ReactMarkdown
               components={{
                 a: customLinkRenderer,

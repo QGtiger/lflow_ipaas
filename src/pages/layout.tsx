@@ -7,6 +7,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ModalRef } from "../utils/customModal";
 import { MessageRef } from "../utils/customMessage";
 import { NotificationRef } from "../utils/customNotification";
+import { useMount } from "ahooks";
+import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
 
 // 定义错误发生时的备用 UI
 const FallbackComponent = (props: any) => {
@@ -49,6 +51,13 @@ export default function Layout() {
   });
   const outlet = useOutlet();
   const location = useLocation();
+
+  useMount(() => {
+    // 本地开发样式问题
+    if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
+      document.getElementById("root")!.style.height = "100vh";
+    }
+  });
 
   useEffect(() => {
     while (ModalRef.modalInsList.length) {

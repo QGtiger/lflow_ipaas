@@ -1,10 +1,12 @@
 import { request } from "@/api/request";
 import { createCustomModel } from "@/common/createModel";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
 export const ManagerModel = createCustomModel(() => {
   const { code } = useParams<{ code: string }>();
+  const initRef = useRef(false);
 
   const { refetch, data, isFetching } = useQuery({
     queryKey: ["queryConnectorInfo", code],
@@ -34,12 +36,17 @@ export const ManagerModel = createCustomModel(() => {
     },
   });
 
+  if (!isFetching && !initRef.current) {
+    initRef.current = true;
+  }
+
   return {
     queryConnector: refetch,
     connectorVersionInfo: data,
     connectorCode: code,
     connectorId: data?.id,
     isQueryConnectorLoading: isFetching,
+    isInitLoading: !initRef.current,
     updateConnector,
   };
 });
