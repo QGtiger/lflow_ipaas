@@ -31,7 +31,7 @@ export const editorConnetorSchema: IpaasFormSchema[] = [
     code: "description",
     name: "描述",
     type: "string",
-    description: "名称可以由数字、英文、下划线组成，最长 150个字符",
+    description: "> 名称可以由`数字`、英文、下划线组成，最长 150个字符",
     required: true,
     editor: {
       kind: "Textarea",

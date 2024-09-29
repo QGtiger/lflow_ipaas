@@ -32,6 +32,9 @@ dependencies:
   dotenv-expand:
     specifier: ^11.0.6
     version: 11.0.6
+  github-markdown-css:
+    specifier: ^5.7.0
+    version: 5.7.0
   qiankun:
     specifier: ^2.10.16
     version: 2.10.16
@@ -2237,6 +2240,11 @@ packages:
 
   /get-ready@1.0.0:
     resolution: {integrity: sha512-mFXCZPJIlcYcth+N8267+mghfYN9h3EhsDa6JSnbA3Wrhh/XFpuowviFcsDeYZtKspQyWyJqfs4O6P8CHeTwzw==}
+    dev: false
+
+  /github-markdown-css@5.7.0:
+    resolution: {integrity: sha512-GoYhaqELL4YUjz4tZ00PQ4JzFQkMfrBVuEeRB8W74HoikHWNiaGqSgynpwJEc+xom5uf04qoD/tUSS6ziZltaQ==}
+    engines: {node: '>=10'}
     dev: false
 
   /glob-parent@5.1.2:

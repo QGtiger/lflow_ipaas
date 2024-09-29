@@ -7,6 +7,9 @@ import { IPaasSchemaFormStore } from "../store";
 import { replaceHtmlATagsWithMarkdown } from "./utils";
 import { IPaasDynamicFormItem } from "../type";
 
+import "github-markdown-css";
+import "./index.css";
+
 const customLinkRenderer = ({ href, children }: any) => {
   return (
     <a href={href} target="_blank" rel="noopener noreferrer">
@@ -56,6 +59,7 @@ function WrapperFieldComponent(props: {
               components={{
                 a: customLinkRenderer,
               }}
+              className="markdown-body "
             >
               {replaceHtmlATagsWithMarkdown(payload.description)}
             </ReactMarkdown>
