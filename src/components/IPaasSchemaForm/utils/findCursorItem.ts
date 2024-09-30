@@ -1,5 +1,5 @@
 import { createFormItem } from "../RecursionFormItem/createFormItem";
-import { IPaasDynamicFormItem, IpaasFormSchema } from "../type";
+import { IPaasDynamicFormItem } from "../type";
 
 function isVisibleFunc(expression: string, formValue: object) {
   return new Function(

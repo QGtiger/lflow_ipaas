@@ -22,7 +22,7 @@ const clearEmpty = (obj: any) => {
     if (v === undefined || v === null || v === "") {
       delete obj[key];
     } else {
-      if (typeof v === "object") {
+      if (typeof v === "object" && v !== null) {
         clearEmpty(v);
       }
     }
@@ -31,11 +31,40 @@ const clearEmpty = (obj: any) => {
 };
 
 function objectSecurityCheck(obj1: any, obj2: any) {
-  // 简单比较两个对象是否相等
-  return (
-    JSON.stringify(clearEmpty(cloneDeep(obj1))) ===
-    JSON.stringify(clearEmpty(cloneDeep(obj2)))
+  return isObj1ContainsObj2(
+    clearEmpty(cloneDeep(obj1)),
+    clearEmpty(cloneDeep(obj2))
   );
+}
+
+function isObj1ContainsObj2(obj1: any, obj2: any) {
+  // 遍历 obj2 的每个键值对
+  for (const key in obj2) {
+    // 检查 obj1 是否有相同的键
+    if (
+      Object.prototype.hasOwnProperty.call(obj1, key) &&
+      Object.prototype.hasOwnProperty.call(obj2, key)
+    ) {
+      // 如果值是对象，则递归检查
+      if (typeof obj1[key] === "object" && typeof obj2[key] === "object") {
+        if (obj1[key] !== null && obj2[key] !== null) {
+          if (!isObj1ContainsObj2(obj1[key], obj2[key])) {
+            return false;
+          }
+        } else if (obj1[key] !== obj2[key]) {
+          // 如果一个为 null 且另一个不为 null，则不匹配
+          return false;
+        }
+      } else if (obj1[key] !== obj2[key]) {
+        // 如果不是对象，则直接比较值
+        return false;
+      }
+    } else {
+      // 如果 obj1 没有 obj2 的键，则不匹配
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
@@ -79,6 +108,7 @@ export default function useRouteBlock(config: {
   const withOutCheckRef = useRef(false);
   const latestConfig = useLatest(config);
   const nav = useNavigate();
+  const [formLoading, setFormLoading] = useState(false);
 
   const disabled = formDisabled || !hasChanged;
 
@@ -124,7 +154,9 @@ export default function useRouteBlock(config: {
   // 表单提交
   const { run: makeFormConfirm } = useThrottleFn(
     () => {
+      setFormLoading(true);
       return latestConfig.current.onConfirm?.(getCurrFormData()).then(() => {
+        setFormLoading(false);
         formChange();
         latestConfig.current.onAfterConfirm?.();
         createMessage({
@@ -233,5 +265,6 @@ export default function useRouteBlock(config: {
     navWithOutCheck,
     makeFormConfirm,
     createCustomModal,
+    formLoading,
   };
 }

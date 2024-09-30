@@ -1,5 +1,4 @@
 import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
-import { IpaasFormSchema } from "@/components/IPaasSchemaForm/type";
 import { FormInstance, ModalFuncProps } from "antd";
 import { HookAPI } from "antd/es/modal/useModal";
 import { createRef } from "react";

@@ -3,7 +3,6 @@ import { useContext, useMemo } from "react";
 import classNames from "classnames";
 import { useBoolean } from "ahooks";
 import { DownOutlined } from "@ant-design/icons";
-import { IpaasFormSchema } from "../type";
 import { findCusrorItem } from "../utils/findCursorItem";
 import { FormContext } from "antd/es/form/context";
 

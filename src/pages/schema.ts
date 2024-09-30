@@ -1,5 +1,3 @@
-import { IpaasFormSchema } from "@/components/IPaasSchemaForm/type";
-
 export const editorConnetorSchema: IpaasFormSchema[] = [
   {
     code: "logo",

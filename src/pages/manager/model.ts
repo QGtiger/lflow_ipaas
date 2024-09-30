@@ -11,14 +11,7 @@ export const ManagerModel = createCustomModel(() => {
   const { refetch, data, isFetching } = useQuery({
     queryKey: ["queryConnectorInfo", code],
     queryFn: async () => {
-      return request<{
-        id: number; // 连接器版本id
-        code: string;
-        logo: string;
-        name: string;
-        documentlink?: string;
-        description: string;
-      }>({
+      return request<IpaasConnectorVersion>({
         url: "/ipaas/connector/" + code,
         method: "GET",
       });
@@ -27,12 +20,24 @@ export const ManagerModel = createCustomModel(() => {
 
   const { mutateAsync: updateConnector } = useMutation({
     mutationKey: ["updateConnectorInfo"],
-    mutationFn: (updateData: any) => {
+    mutationFn: (updateData: Partial<IpaasConnectorVersion>) => {
       return request({
         url: "/ipaas/connector/" + data?.id,
         method: "patch",
         data: updateData,
       }).then(refetch);
+    },
+  });
+
+  const { mutateAsync: updateConnectorAuth } = useMutation({
+    mutationKey: ["updateConnectorInfo"],
+    mutationFn: (authData: Partial<IpaasAuthProtocel>) => {
+      return updateConnector({
+        authprotocel: {
+          ...data!.authprotocel,
+          ...authData,
+        },
+      });
     },
   });
 
@@ -42,11 +47,12 @@ export const ManagerModel = createCustomModel(() => {
 
   return {
     queryConnector: refetch,
-    connectorVersionInfo: data,
+    connectorVersionInfo: data!,
     connectorCode: code,
     connectorId: data?.id,
     isQueryConnectorLoading: isFetching,
     isInitLoading: !initRef.current,
     updateConnector,
+    updateConnectorAuth,
   };
 });

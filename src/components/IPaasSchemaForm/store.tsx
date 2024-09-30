@@ -1,9 +1,10 @@
 import { useMemo } from "react";
 import { createCustomModel } from "./common/createModel";
-import { ExtractEditorKinds } from "./type";
-import { Input, InputNumber, Select } from "antd";
+import { Input, InputNumber, Switch } from "antd";
 import useDefaultValue from "./hooks/useDefaultValue";
 import Upload from "./components/Upload";
+import CustomSelect from "./components/CustomSelect";
+import DynamicForm from "./components/DynamicForm";
 
 export interface IPaasSchemaFormStoreInfer {
   editorMap?: Record<string, (props: any) => React.ReactNode>;
@@ -11,6 +12,13 @@ export interface IPaasSchemaFormStoreInfer {
     editor: React.ReactNode,
     desc: React.ReactNode
   ) => React.ReactNode;
+  dynamicScriptExcuteWithOptions?: (config: {
+    script: string;
+    extParams: Record<string, any>;
+  }) => Promise<{ value: any; label: any }[]>;
+  dynamicScriptExcuteWithFormSchema?: (config: {
+    script: string;
+  }) => Promise<IpaasFormSchema[]>;
 }
 
 function ExcludeEditorSchemaPropsByComponent(
@@ -38,18 +46,19 @@ export const IPaasSchemaFormStore = createCustomModel(
         Upload,
         PlainText: () => <div>PlainText</div>,
         InputWithCopy: () => <div>InputWithCopy</div>,
-        Select,
-        Switch: () => <div>Switch</div>,
+        Select: CustomSelect,
+        Switch: ExcludeEditorSchemaPropsByComponent(Switch),
         DateTimePicker: () => <div>DateTimePicker</div>,
         DatePicker: () => <div>DatePicker</div>,
         TimePicker: () => <div>TimePicker</div>,
         MultiSelect: () => <div>MultiSelect</div>,
         MultiList: () => <div>MultiList</div>,
-        DynamicForm: () => <div>DynamicForm</div>,
+        DynamicForm,
+        ...props.editorMap,
       };
       return {
-        editorMap,
         ...props,
+        editorMap,
       };
     }, [props.editorMap]);
   }
