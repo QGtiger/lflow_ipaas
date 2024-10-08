@@ -19,7 +19,12 @@ const isRouterBlockPassRef = {
 const clearEmpty = (obj: any) => {
   for (const key in obj) {
     const v = obj[key];
-    if (v === undefined || v === null || v === "") {
+    if (
+      v === undefined ||
+      v === null ||
+      v === "" ||
+      (typeof v === "object" && JSON.stringify(clearEmpty(v)) === "{}") // 空对象 比较
+    ) {
       delete obj[key];
     } else {
       if (typeof v === "object" && v !== null) {
@@ -155,15 +160,19 @@ export default function useRouteBlock(config: {
   const { run: makeFormConfirm } = useThrottleFn(
     () => {
       setFormLoading(true);
-      return latestConfig.current.onConfirm?.(getCurrFormData()).then(() => {
-        setFormLoading(false);
-        formChange();
-        latestConfig.current.onAfterConfirm?.();
-        createMessage({
-          type: "success",
-          content: "保存成功",
+      return latestConfig.current
+        .onConfirm?.(getCurrFormData())
+        .then(() => {
+          formChange();
+          latestConfig.current.onAfterConfirm?.();
+          createMessage({
+            type: "success",
+            content: "保存成功",
+          });
+        })
+        .finally(() => {
+          setFormLoading(false);
         });
-      });
     },
     {
       wait: 500,

@@ -9,7 +9,11 @@ function ManagerLayout() {
   const { isInitLoading } = ManagerModel.useModel();
 
   if (isInitLoading) {
-    return <Skeleton active />;
+    return (
+      <div className="p-4">
+        <Skeleton active />
+      </div>
+    );
   }
 
   return (

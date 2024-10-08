@@ -108,6 +108,7 @@ const DefaultSelectConfigSchema: IpaasFormSchema[] = [
     code: ["editor", "config", "dynamicScript"],
     type: "string",
     description: "动态加载数据的脚本",
+    required: true,
     visibleRules: "editor.config && !!editor.config.isDynamic",
     editor: {
       kind: "Textarea",
@@ -116,22 +117,11 @@ const DefaultSelectConfigSchema: IpaasFormSchema[] = [
       },
     },
   },
-  // {
-  //   name: "依赖项",
-  //   code: ["editor", "config", "depItems"],
-  //   type: "list",
-  //   description: "动态加载数据的依赖项",
-  //   editor: {
-  //     kind: "MultiSelect",
-  //     config: {
-  //       placeholder: "请选择依赖项",
-  //     },
-  //   },
-  // },
   {
     name: "静态选项",
     code: ["editor", "config", "options"],
     type: "list",
+    required: true,
     description: "下拉选项",
     visibleRules: "!editor.config || !editor.config.isDynamic",
     editor: {
@@ -145,7 +135,9 @@ export const EditorKindConfigSchemaMap: Record<
   IpaasFormSchema[]
 > = {
   Input: getDefaultInputConfigSchema(),
-  Textarea: getDefaultInputConfigSchema(),
+  Textarea: getDefaultInputConfigSchema({
+    defaultKind: "Textarea",
+  }),
   InputNumber: getDefaultInputConfigSchema({
     defaultKind: "InputNumber",
   }),
@@ -290,7 +282,7 @@ export const EditorKindConfigSchemaMap: Record<
       },
     },
     {
-      name: "静态选项",
+      name: "静态子表单协议",
       code: ["editor", "config", "staticSubFields"],
       type: "list",
       description: "动态子表单协议数据",
@@ -423,28 +415,55 @@ export const EditFormSchema: IpaasFormSchema[] = [
       } as EditotKindConfigMapping["Select"],
     },
   },
+  // {
+  //   name: "组件配置",
+  //   code: "editor",
+  //   type: "struct",
+  //   description: "组件配置",
+  //   editor: {
+  //     kind: "DynamicForm",
+  //     config: {
+  //       isDynamic: true,
+  //       dynamicScript: `
+  //         function main() {
+  //           const {editor} = params;
+  //           const { kind } = editor || {}
+  //           const hashMap = ${JSON.stringify(EditorKindConfigSchemaMap)};
+  //           console.log(kind, hashMap, params)
+  //           if (!kind) return []
+  //           return hashMap[kind]
+  //         }
+  //       `,
+  //       depItems: ["editor.kind", "type"],
+  //       staticSubFields: [],
+  //     } as EditotKindConfigMapping["DynamicForm"],
+  //   },
+  // },
+];
+
+export const ExpertFormSchema: IpaasFormSchema[] = [
   {
-    name: "组件配置",
-    code: "editor",
-    type: "struct",
-    description: "组件配置",
+    code: "group",
+    name: "字段分组",
+    type: "string",
     editor: {
-      kind: "DynamicForm",
-      config: {
-        isDynamic: true,
-        dynamicScript: `
-          function main() {
-            const {editor} = params;
-            const { kind } = editor || {}
-            const hashMap = ${JSON.stringify(EditorKindConfigSchemaMap)};
-            console.log(kind, hashMap, params)
-            if (!kind) return []
-            return hashMap[kind]
-          }
-        `,
-        depItems: ["editor.kind", "type"],
-        staticSubFields: [],
-      } as EditotKindConfigMapping["DynamicForm"],
+      kind: "Input",
+    },
+  },
+  {
+    code: "visibleRules",
+    name: "显示规则",
+    type: "string",
+    editor: {
+      kind: "Input", // 书写表达式
+    },
+  },
+  {
+    code: "validateRules",
+    name: "校验规则",
+    type: "string",
+    editor: {
+      kind: "Textarea",
     },
   },
 ];

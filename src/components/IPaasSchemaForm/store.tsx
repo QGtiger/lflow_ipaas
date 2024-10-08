@@ -5,6 +5,7 @@ import useDefaultValue from "./hooks/useDefaultValue";
 import Upload from "./components/Upload";
 import CustomSelect from "./components/CustomSelect";
 import DynamicForm from "./components/DynamicForm";
+import MultiSelect from "./components/MultiSelect";
 
 export interface IPaasSchemaFormStoreInfer {
   editorMap?: Record<string, (props: any) => React.ReactNode>;
@@ -51,7 +52,7 @@ export const IPaasSchemaFormStore = createCustomModel(
         DateTimePicker: () => <div>DateTimePicker</div>,
         DatePicker: () => <div>DatePicker</div>,
         TimePicker: () => <div>TimePicker</div>,
-        MultiSelect: () => <div>MultiSelect</div>,
+        MultiSelect,
         MultiList: () => <div>MultiList</div>,
         DynamicForm,
         ...props.editorMap,

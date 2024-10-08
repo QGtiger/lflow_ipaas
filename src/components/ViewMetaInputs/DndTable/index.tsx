@@ -132,7 +132,7 @@ const DndTable: React.FC<{
                 setDataSource(dataSource.filter((i) => i.code !== record.code));
               }}
             >
-              <a>删除</a>
+              <Typography.Link style={{ marginRight: 8 }}>删除</Typography.Link>
             </Popconfirm>
           </span>
         );

@@ -22,6 +22,11 @@ export default function DaynamicForm(
   const formValue = form!.getFieldsValue();
   const previousValue = useRef<any>();
 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    staticSubFields && setSubSchema(staticSubFields);
+  }, [staticSubFields]);
+
   const { run } = useDebounceFn(
     () => {
       if (!isDynamic) return;

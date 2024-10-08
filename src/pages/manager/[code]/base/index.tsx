@@ -21,7 +21,7 @@ export default function Base() {
 
   const formRef = useRef<FormInstance>(null);
 
-  const { disabled, formChange, makeFormConfirm } = useRouteBlock({
+  const { disabled, formChange, makeFormConfirm, formLoading } = useRouteBlock({
     formInstanceListRef: [formRef],
     originData: baseInfo,
     onConfirm: updateConnector,
@@ -36,7 +36,12 @@ export default function Base() {
         schema={editorConnetorSchema}
         onValuesChange={formChange}
       ></IPaasSchemaForm>
-      <Button type="primary" onClick={makeFormConfirm} disabled={disabled}>
+      <Button
+        loading={formLoading}
+        type="primary"
+        onClick={makeFormConfirm}
+        disabled={disabled}
+      >
         保存
       </Button>
     </PageContainer>

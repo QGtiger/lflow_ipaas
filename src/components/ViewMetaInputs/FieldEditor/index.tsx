@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
 import { FIELDINDEX } from "@/constant";
 import useRouteBlock from "@/hooks/useRouteBlock";
@@ -6,8 +5,12 @@ import useRouter from "@/hooks/useRouter";
 import { LeftOutlined } from "@ant-design/icons";
 import { Button, Tabs } from "antd";
 import type { FormInstance, TabsProps } from "antd";
-import { useMemo, useRef } from "react";
-import { EditFormSchema } from "./schema";
+import { useMemo, useRef, useState } from "react";
+import {
+  EditFormSchema,
+  EditorKindConfigSchemaMap,
+  ExpertFormSchema,
+} from "./schema";
 
 const defaultFormField: Partial<IpaasFormSchema> = {
   // type: 'string',
@@ -35,83 +38,143 @@ export default function FieldEditor({
   const form1Ref = useRef<FormInstance>(null);
   const form2Ref = useRef<FormInstance>(null);
   const _initialFormField = initialFormField || defaultFormField;
+  const [form1Value, setForm1Value] = useState<any>(_initialFormField);
 
   // 注意这里和默认值要对应上，否则会会有问题，会触发用户修改逻辑。从而导致跳转校验
-  const { disabled, formChange, navWithOutCheck, makeFormConfirm } =
-    useRouteBlock({
-      formInstanceListRef: [form1Ref, form2Ref],
-      originData: _initialFormField,
-      async onConfirm(data) {
-        console.log(data);
-        // return onFinished(data, () => {
-        //   navWithOutCheck(delSearchParam(FIELDINDEX), { replace: true });
-        // });
+  const {
+    disabled,
+    formChange,
+    navWithOutCheck,
+    makeFormConfirm,
+    formLoading,
+  } = useRouteBlock({
+    formInstanceListRef: [form1Ref, form2Ref],
+    originData: _initialFormField,
+    async onConfirm(data) {
+      return onFinished(data, () => {
+        navWithOutCheck(delSearchParam(FIELDINDEX), { replace: true });
+      });
+    },
+  });
+
+  const baseSchema = useMemo(() => {
+    const _schema = [...EditFormSchema];
+    const _kind: ExtractEditorKinds = form1Value?.editor?.kind;
+    if (!_kind) return _schema;
+    const extra = [...(EditorKindConfigSchemaMap[_kind] || [])];
+    if (["Select", "MultiSelect", "DynamicForm"].includes(_kind)) {
+      extra.push({
+        name: "依赖项",
+        code: ["editor", "config", "depItems"],
+        type: "list",
+        description: "动态加载数据的依赖项",
+        editor: {
+          kind: "MultiSelect",
+          config: {
+            placeholder: "请选择依赖项",
+            options: fields.map((it) => {
+              return {
+                value: it.code,
+                label: it.name,
+              };
+            }),
+          },
+        },
+        visibleRules: `editor.config && !!editor.config.isDynamic`,
+      });
+    }
+    _schema.push({
+      name: "组件配置",
+      code: "editor",
+      type: "struct",
+      description: "组件配置",
+      editor: {
+        kind: "DynamicForm",
+        config: {
+          isDynamic: false,
+          staticSubFields: extra,
+        } as EditotKindConfigMapping["DynamicForm"],
       },
     });
+    return _schema;
+  }, [form1Value, fields]);
 
-  const tabItems = useMemo(() => {
-    return [
-      {
-        label: "基本信息",
-        key: "1",
-        forceRender: true,
-        children: (
-          <div>
-            <IPaasSchemaForm
-              ref={form1Ref}
-              initialValues={_initialFormField}
-              layout="vertical"
-              schema={EditFormSchema}
-              onValuesChange={formChange}
-              dynamicScriptExcuteWithOptions={async ({ script, extParams }) => {
-                const formValues = form1Ref.current!.getFieldsValue();
-                return new Function(
-                  "context",
-                  `
-                  try {
-                    with(context) {
-                      ${script}
-                      return main()
-                    }
-                  } catch (e) {
-                    console.error('动态select error:', e)
-                    return []
-                  }
+  const tabItems = [
+    {
+      label: "基本信息",
+      key: "1",
+      forceRender: true,
+      children: (
+        <div>
+          <IPaasSchemaForm
+            ref={form1Ref}
+            initialValues={_initialFormField}
+            layout="vertical"
+            schema={baseSchema}
+            onValuesChange={(_, v) => {
+              setForm1Value(v);
+              formChange();
+            }}
+            dynamicScriptExcuteWithOptions={async ({ script, extParams }) => {
+              const formValues = form1Ref.current!.getFieldsValue();
+              return new Function(
+                "context",
                 `
-                )({
-                  params: {
-                    ...formValues,
-                    ...extParams,
-                  },
-                });
-              }}
-              dynamicScriptExcuteWithFormSchema={async ({ script }) => {
-                const formValues = form1Ref.current!.getFieldsValue();
-                return new Function(
-                  "context",
-                  `
-                  try {
-                    with(context) {
-                      ${script}
-                      return main()
-                    }
-                  } catch (e) {
-                    console.error('动态select error:', e)
-                    return []
+                try {
+                  with(context) {
+                    ${script}
+                    return main()
                   }
+                } catch (e) {
+                  console.error('动态select error:', e)
+                  return []
+                }
+              `
+              )({
+                params: {
+                  ...formValues,
+                  ...extParams,
+                },
+              });
+            }}
+            dynamicScriptExcuteWithFormSchema={async ({ script }) => {
+              const formValues = form1Ref.current!.getFieldsValue();
+              return new Function(
+                "context",
                 `
-                )({
-                  params: {
-                    ...formValues,
-                  },
-                });
-              }}
-            />
-          </div>
-        ),
-      },
-    ] as TabsProps["items"];
-  }, []);
+                try {
+                  with(context) {
+                    ${script}
+                    return main()
+                  }
+                } catch (e) {
+                  console.error('动态select error:', e)
+                  return []
+                }
+              `
+              )({
+                params: {
+                  ...formValues,
+                },
+              });
+            }}
+          />
+        </div>
+      ),
+    },
+    {
+      label: "高级配置",
+      key: "expert",
+      forceRender: true,
+      children: (
+        <IPaasSchemaForm
+          ref={form2Ref}
+          onValuesChange={formChange}
+          schema={ExpertFormSchema}
+        />
+      ),
+    },
+  ] as TabsProps["items"];
 
   return (
     <div className="fieldeditor">
@@ -126,7 +189,12 @@ export default function FieldEditor({
       </div>
       <div className=" px-[24px] pt-[12px] pb-[24px] bg-[#f6f8fb] mt-6">
         <Tabs defaultActiveKey="1" items={tabItems} />
-        <Button type="primary" disabled={disabled} onClick={makeFormConfirm}>
+        <Button
+          type="primary"
+          disabled={disabled}
+          onClick={makeFormConfirm}
+          loading={formLoading}
+        >
           保存
         </Button>
       </div>

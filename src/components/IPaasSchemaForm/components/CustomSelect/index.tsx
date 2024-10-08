@@ -51,7 +51,11 @@ export default function CustomSelect(
           // 如果数据不存在当前值，则清空当前值
           if (!list.some((item) => item.value === props.value)) {
             // FIXME 这里有一个问题，多层嵌套问题
-            form!.setFieldValue(props.name, undefined);
+            // form!.setFieldValue(props.name, undefined);
+            if (form!.getFieldValue(props.name)) {
+              // @ts-expect-error 先这样吧
+              props.onChange(undefined);
+            }
           }
           setSelectOptions(list);
         })

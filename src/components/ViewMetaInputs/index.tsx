@@ -31,8 +31,9 @@ export default function ViewMetaInputs({
 
   const onEditorFinished = (data: IpaasFormSchema, cb?: () => void) => {
     return new Promise<void>((resolve, reject) => {
+      const index = tData.findIndex((item) => item.code === data.code);
+      // 新增
       if (isEditMode) {
-        const index = tData.findIndex((item) => item.code === data.code);
         if (index !== -1) {
           message.error("字段已存在");
           reject("字段已存在");
@@ -43,6 +44,9 @@ export default function ViewMetaInputs({
         if (!fieldIndex) {
           message.error("字段不存在");
           reject("字段不存在");
+        } else if (index !== -1 && index !== +fieldIndex) {
+          message.error("字段已存在");
+          reject("字段已存在");
         } else {
           tData.splice(+fieldIndex, 1, data);
           onSave(tData).then(resolve, reject);
