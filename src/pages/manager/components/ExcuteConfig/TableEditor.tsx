@@ -4,7 +4,7 @@ import { Dropdown, FormInstance, Input, Select } from "antd";
 import { Button, Form, Table } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import { v4 as uuidV4 } from "uuid";
-import { IPaasCommonFormFieldProps } from "../IPaasSchemaForm/type";
+import { IPaasCommonFormFieldProps } from "../../../../components/IPaasSchemaForm/type";
 import { createSchemaFormModal } from "@/utils/customModal";
 import { transform } from "@/utils/transform";
 

@@ -4,7 +4,7 @@ import { Tabs, TabsProps } from "antd";
 import AuthMethod from "./AuthMethod";
 import ViewMetaInputs from "@/components/ViewMetaInputs";
 import { ManagerModel } from "../../model";
-import ExcuteConfig from "@/components/ExcuteConfig";
+import ExcuteConfig from "@/pages/manager/components/ExcuteConfig";
 
 const RouterQueryTabKey = "tabKey";
 

@@ -234,7 +234,7 @@ export default function useRouteBlock(config: {
         content: "数据已修改，确定保存?",
         zIndex: 3000,
         onOk() {
-          makeFormConfirm();
+          return makeFormConfirm();
         },
       });
     } else {
