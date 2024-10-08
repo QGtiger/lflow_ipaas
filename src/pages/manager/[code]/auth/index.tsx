@@ -4,6 +4,7 @@ import { Tabs, TabsProps } from "antd";
 import AuthMethod from "./AuthMethod";
 import ViewMetaInputs from "@/components/ViewMetaInputs";
 import { ManagerModel } from "../../model";
+import ExcuteConfig from "@/components/ExcuteConfig";
 
 const RouterQueryTabKey = "tabKey";
 
@@ -36,6 +37,11 @@ export default function AuthPage() {
         />
       ),
       disabled: authprotocel.type === "none",
+    },
+    {
+      label: "授权配置",
+      key: "config",
+      children: <ExcuteConfig />,
     },
   ];
 

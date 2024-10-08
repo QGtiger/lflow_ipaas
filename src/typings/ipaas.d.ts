@@ -1,11 +1,11 @@
 // http 请求 method
 enum HttpMethodEnum {
-  Post = "Post",
-  Get = "Get",
-  Delete = "Delete",
-  Put = "Put",
+  POST = "POST",
+  GET = "GET",
+  DELETE = "DELETE",
+  PUT = "PUT",
+  PATCH = "PATCH",
 }
-
 // 执行接口
 interface ExcuteInfer {
   mode: "http" | "code";

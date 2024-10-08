@@ -14,7 +14,8 @@ type EditorKindMapping = {
     | "PlainText"
     | "InputWithCopy"
     | "Select"
-    | "Textarea";
+    | "Textarea"
+    | "CodeEditor";
   number: "InputNumber" | "Select";
   boolean: "Switch" | "Select";
   datetime: "DateTimePicker" | "DatePicker" | "TimePicker";
@@ -29,6 +30,7 @@ type EditorTypeConfig = {
 };
 
 type EditotKindConfigMapping = {
+  CodeEditor: any;
   Input: {
     placeholder?: string;
     defaultValue?: any;

@@ -19,7 +19,9 @@ function ManagerLayout() {
   return (
     <div className=" bg-[#f2f3f5] h-full w-full flex flex-col">
       <Menu />
-      <div className="right-content p-[16px] flex-1">{outlet}</div>
+      <div className="right-content p-[16px] flex-1 overflow-auto">
+        {outlet}
+      </div>
     </div>
   );
 }

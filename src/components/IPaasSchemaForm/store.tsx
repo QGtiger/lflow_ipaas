@@ -6,6 +6,7 @@ import Upload from "./components/Upload";
 import CustomSelect from "./components/CustomSelect";
 import DynamicForm from "./components/DynamicForm";
 import MultiSelect from "./components/MultiSelect";
+import CodeEditor from "./components/CodeEditor";
 
 export interface IPaasSchemaFormStoreInfer {
   editorMap?: Record<string, (props: any) => React.ReactNode>;
@@ -55,6 +56,7 @@ export const IPaasSchemaFormStore = createCustomModel(
         MultiSelect,
         MultiList: () => <div>MultiList</div>,
         DynamicForm,
+        CodeEditor,
         ...props.editorMap,
       };
       return {
