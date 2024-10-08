@@ -111,7 +111,7 @@ const DefaultSelectConfigSchema: IpaasFormSchema[] = [
     required: true,
     visibleRules: "editor.config && !!editor.config.isDynamic",
     editor: {
-      kind: "Textarea",
+      kind: "CodeEditor",
       config: {
         placeholder: "请输入动态脚本",
       },
@@ -275,7 +275,7 @@ export const EditorKindConfigSchemaMap: Record<
       description: "动态加载数据的脚本",
       visibleRules: "editor.config && !!editor.config.isDynamic",
       editor: {
-        kind: "Textarea",
+        kind: "CodeEditor",
         config: {
           placeholder: "请输入动态脚本",
         },

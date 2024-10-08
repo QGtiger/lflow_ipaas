@@ -36,12 +36,13 @@ export default function AuthPage() {
           }}
         />
       ),
-      disabled: authprotocel.type === "none",
+      disabled: !authprotocel.type || authprotocel.type === "none",
     },
     {
       label: "授权配置",
       key: "config",
       children: <ExcuteConfig />,
+      disabled: authprotocel.type !== "session_auth",
     },
   ];
 
