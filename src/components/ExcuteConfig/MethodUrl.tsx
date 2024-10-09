@@ -1,4 +1,5 @@
-import { Form, Input, Select } from "antd";
+import { Form, Select } from "antd";
+import useEditor from "../IPaasSchemaForm/hooks/useEditor";
 
 const OptionsMap: Record<HttpMethodEnum, string> = {
   GET: "GET",
@@ -14,6 +15,7 @@ const Options = Object.entries(OptionsMap).map(([value, label]) => ({
 }));
 
 export default function MethodUrl() {
+  const InputComponent = useEditor("VarEditor");
   return (
     <div className="flex gap-2 items-center">
       <Form.Item name="method" noStyle>
@@ -34,7 +36,7 @@ export default function MethodUrl() {
           },
         ]}
       >
-        <Input placeholder="请输入接口地址 变量使用 {{$.property.auth.}}" />
+        <InputComponent placeholder="请输入接口地址 变量使用 {{$.property.auth.}}" />
       </Form.Item>
     </div>
   );

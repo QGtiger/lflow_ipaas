@@ -1,0 +1,47 @@
+.rich-editor {
+  width: 100%;
+  height: 100%;
+  padding: 0 11px;
+
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  box-sizing: border-box;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 14px;
+  line-height: 1.5714285714285714;
+  list-style: none;
+  font-family: inherit;
+  display: flex;
+  border-radius: 6px;
+
+  cursor: text;
+}
+
+.rich-editor:hover {
+  border-color: #1677ff;
+}
+
+.rich-editor.focused {
+  border-color: #1677ff;
+}
+
+.ql-editor {
+  font-size: 14px;
+  padding: 0;
+  line-height: 30px;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 88%);
+  display: inline-block;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.ql-editor.ql-blank::before {
+  left: 11px;
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.35);
+}

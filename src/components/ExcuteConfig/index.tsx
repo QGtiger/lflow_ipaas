@@ -10,6 +10,8 @@ import { FormInstance } from "antd/lib";
 import useRouteBlock from "@/hooks/useRouteBlock";
 import useRouter from "@/hooks/useRouter";
 
+import VarEditor from "@/pages/manager/components/VarEditor";
+
 type UpdateConfirm = (
   data: Partial<{
     excuteProtocol: ExcuteInfer;
@@ -156,6 +158,7 @@ function Excute(props: {
         editorMap={{
           MethodUrl,
           HttpConfig,
+          VarEditor,
         }}
         initialValues={_initialValue}
         onValuesChange={formChange}

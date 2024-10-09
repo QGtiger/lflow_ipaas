@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Tabs, TabsProps } from "antd";
-// import useEditor from '../../hooks/useEditor';
+import useEditor from "../IPaasSchemaForm/hooks/useEditor";
 
 function ConfigPanelList(props: { name: string[] }) {
-  const InputComponent = Input;
+  const InputComponent = useEditor("VarEditor", Input);
   return (
     <Form.List name={props.name}>
       {(subFields, subOpt) => {
