@@ -51,8 +51,27 @@ interface IpaasConnectorVersion {
   ispublished: boolean;
 
   authprotocel: IpaasAuthProtocel;
-  actions: string; // 动作列表 JSON.stringify(IpaasAction[])
+  actions: IpaasAction[]; // 动作列表 JSON.stringify(IpaasAction[])
 
   created_at: number;
   updated_at: number;
+}
+
+type IpaasAction = {
+  code: string;
+  name: string;
+  description: string;
+  group: string;
+
+  inputs: Array<IpaasFormSchema>;
+  excuteProtocol: ExcuteInfer;
+  outputs: OutputStrcut[];
+};
+
+// 输出数据结构
+interface OutputStrcut {
+  name: string;
+  label: string;
+  type: "string" | "number" | "boolean" | "object" | "array";
+  children: OutputStrcut[];
 }

@@ -1,60 +1,62 @@
 import PageContainer from "@/components/PageContainer";
-import useRouter from "@/hooks/useRouter";
+import useAction from "./useAction";
 import { Tabs, TabsProps } from "antd";
-import AuthMethod from "./AuthMethod";
+import BaseActionInfo from "./BaseActionInfo";
+import useRouter from "@/hooks/useRouter";
 import ViewMetaInputs from "@/components/ViewMetaInputs";
-import { ManagerModel } from "../../model";
+import { ManagerModel } from "@/pages/manager/model";
 import ExcuteConfig from "@/components/ExcuteConfig";
 
 const RouterQueryTabKey = "tabKey";
 
-export default function AuthPage() {
-  const {
-    connectorVersionInfo: { authprotocel },
-    updateConnectorAuth,
-  } = ManagerModel.useModel();
+export default function ActionCode() {
+  const actionData = useAction();
   const { navBySearchParam, searchParamsObj } = useRouter<{
     [RouterQueryTabKey]: string;
   }>();
+  const { updateConnectorAction } = ManagerModel.useModel();
 
   const tabsList: TabsProps["items"] = [
     {
       label: "授权方式",
       key: "base",
-      children: <AuthMethod />,
+      children: <BaseActionInfo />,
     },
     {
       label: "输入参数",
       key: "inputs",
       children: (
         <ViewMetaInputs
-          viewMetaInputs={authprotocel.inputs}
+          viewMetaInputs={actionData.inputs || []}
           onSave={(e) => {
-            return updateConnectorAuth({
+            return updateConnectorAction({
+              code: actionData.code,
               inputs: e,
             });
           }}
         />
       ),
-      disabled: !authprotocel.type || authprotocel.type === "none",
     },
     {
-      label: "授权配置",
+      label: "执行配置",
       key: "config",
       children: (
         <ExcuteConfig
-          excuteProtocol={authprotocel.excuteProtocol}
-          onConfirm={updateConnectorAuth}
-          outputs={authprotocel.outputs}
-          tokenConfig={authprotocel.tokenConfig || {}}
+          excuteProtocol={actionData.excuteProtocol}
+          outputs={actionData.outputs}
+          onConfirm={(data) => {
+            return updateConnectorAction({
+              code: actionData.code,
+              ...data,
+            });
+          }}
         />
       ),
-      disabled: authprotocel.type !== "session_auth",
     },
   ];
 
   return (
-    <PageContainer title={`授权配置`}>
+    <PageContainer title={`执行操作(${actionData?.name})`}>
       <div className="mt-[-10px]">
         <Tabs
           destroyInactiveTabPane={true}

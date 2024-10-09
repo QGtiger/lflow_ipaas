@@ -1,7 +1,7 @@
 import {
   ClusterOutlined,
   ContactsOutlined,
-  FunctionOutlined,
+  DribbbleOutlined,
   SafetyOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
@@ -12,7 +12,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 type MenuItem = GetProp<MenuProps, "items">[number];
 
 const MyMenu: React.FC = () => {
-  const { connectorCode } = ManagerModel.useModel();
+  const {
+    connectorCode,
+    connectorVersionInfo: { actions },
+  } = ManagerModel.useModel();
   const nav = useNavigate();
   const pathname = useLocation().pathname;
   const items: MenuItem[] = [
@@ -32,15 +35,16 @@ const MyMenu: React.FC = () => {
       label: "应用发布",
     },
     {
-      key: "/action",
+      key: `/manager/${connectorCode}/action`,
       label: "执行操作",
-      icon: <FunctionOutlined />,
-      children: [
-        { key: "7", label: "Option 7" },
-        { key: "8", label: "Option 8" },
-        { key: "9", label: "Option 9" },
-        { key: "10", label: "Option 10" },
-      ],
+      onTitleClick: () => {
+        nav(`/manager/${connectorCode}/action`);
+      },
+      icon: <DribbbleOutlined />,
+      children: actions.map((action) => ({
+        key: `/manager/${connectorCode}/action/${action.code}`,
+        label: action.name,
+      })),
     },
   ];
 

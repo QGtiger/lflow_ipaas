@@ -1,23 +1,29 @@
 import { Button, Segmented, Tabs, TabsProps } from "antd";
-import { IPaasSchemaForm } from "../../../../components/IPaasSchemaForm";
+import { IPaasSchemaForm } from "../IPaasSchemaForm";
 import { useMemo, useRef } from "react";
 import MethodUrl from "./MethodUrl";
 import HttpConfig from "./HttpConfig";
 import TableEditor from "./TableEditor";
-import { ManagerModel } from "../../model";
 import { useReactive } from "ahooks";
 import { createModal } from "@/utils/customModal";
 import { FormInstance } from "antd/lib";
 import useRouteBlock from "@/hooks/useRouteBlock";
 import useRouter from "@/hooks/useRouter";
 
-function Excute() {
+type UpdateConfirm = (
+  data: Partial<{
+    excuteProtocol: ExcuteInfer;
+    outputs: OutputStrcut[];
+    tokenConfig: IpaasAuthProtocel["tokenConfig"];
+  }>
+) => Promise<any>;
+
+function Excute(props: {
+  excuteProtocol: ExcuteInfer;
+  onConfirm: UpdateConfirm;
+}) {
   const form1Ref = useRef<FormInstance>(null);
-  const {
-    connectorVersionInfo: { authprotocel },
-    updateConnectorAuth,
-  } = ManagerModel.useModel();
-  const { excuteProtocol } = authprotocel;
+  const { excuteProtocol, onConfirm } = props;
   const viewModel = useReactive<{
     mode: ExcuteInfer["mode"];
   }>({
@@ -29,10 +35,12 @@ function Excute() {
   const _initialValue = useMemo(() => {
     return (
       (isHttp
-        ? authprotocel.excuteProtocol?.httpModeConfig
-        : authprotocel.excuteProtocol?.codeModeConfig) || {}
+        ? excuteProtocol?.httpModeConfig || {
+            method: "GET",
+          }
+        : excuteProtocol?.codeModeConfig) || {}
     );
-  }, [isHttp, authprotocel.excuteProtocol]);
+  }, [isHttp, excuteProtocol]);
 
   const { formLoading, makeFormConfirm, formChange, disabled } = useRouteBlock({
     formInstanceListRef: [form1Ref],
@@ -45,9 +53,9 @@ function Excute() {
         : {
             codeModeConfig: data,
           };
-      await updateConnectorAuth({
+      await onConfirm({
         excuteProtocol: {
-          ...authprotocel.excuteProtocol,
+          ...excuteProtocol,
           ...o,
         },
       });
@@ -130,7 +138,7 @@ function Excute() {
             title: "切换模式",
             content: "切换模式后，当前配置将会失效，是否继续？",
             onOk() {
-              return updateConnectorAuth({
+              return onConfirm({
                 excuteProtocol: {
                   ...excuteProtocol,
                   mode: value,
@@ -205,22 +213,22 @@ const outputsSchema = [
   },
 ] as IpaasFormSchema[];
 
-function Defination() {
-  const {
-    connectorVersionInfo: { authprotocel },
-    updateConnectorAuth,
-  } = ManagerModel.useModel();
+function Defination(props: {
+  outputs: OutputStrcut[];
+  onConfirm: UpdateConfirm;
+}) {
+  const { outputs, onConfirm } = props;
   const form2Ref = useRef<FormInstance>(null);
 
   const _initialValue = {
-    outputs: authprotocel.outputs,
+    outputs,
   };
 
   const { formLoading, makeFormConfirm, formChange, disabled } = useRouteBlock({
     formInstanceListRef: [form2Ref],
     originData: _initialValue,
     async onConfirm(data) {
-      await updateConnectorAuth(data);
+      await onConfirm(data);
     },
   });
 
@@ -268,18 +276,20 @@ const tokenConfigSchema: IpaasFormSchema[] = [
   },
 ];
 
-function TokenConfig() {
+function TokenConfig({
+  tokenConfig,
+  onConfirm,
+}: {
+  tokenConfig: IpaasAuthProtocel["tokenConfig"];
+  onConfirm: UpdateConfirm;
+}) {
   const formRef = useRef<FormInstance>(null);
-  const {
-    connectorVersionInfo: { authprotocel },
-    updateConnectorAuth,
-  } = ManagerModel.useModel();
 
   const { formLoading, makeFormConfirm, formChange, disabled } = useRouteBlock({
     formInstanceListRef: [formRef],
-    originData: authprotocel.tokenConfig || {},
+    originData: tokenConfig,
     async onConfirm(data) {
-      await updateConnectorAuth({
+      await onConfirm({
         tokenConfig: data,
       });
     },
@@ -289,7 +299,7 @@ function TokenConfig() {
     <div>
       <IPaasSchemaForm
         ref={formRef}
-        initialValues={authprotocel.tokenConfig}
+        initialValues={tokenConfig}
         schema={tokenConfigSchema}
         onValuesChange={formChange}
       />
@@ -307,7 +317,13 @@ function TokenConfig() {
 
 type P = "excute" | "defination";
 
-export default function ExcuteConfig() {
+export default function ExcuteConfig(props: {
+  excuteProtocol: ExcuteInfer;
+  outputs: OutputStrcut[];
+  tokenConfig?: IpaasAuthProtocel["tokenConfig"];
+  onConfirm: UpdateConfirm;
+}) {
+  const { excuteProtocol, onConfirm, outputs, tokenConfig } = props;
   const {
     navBySearchParam,
     searchParamsObj: { et },
@@ -319,19 +335,23 @@ export default function ExcuteConfig() {
     {
       label: "执行配置",
       key: "excute" as P,
-      children: <Excute />,
+      children: (
+        <Excute excuteProtocol={excuteProtocol} onConfirm={onConfirm} />
+      ),
     },
     {
       label: "定义输出",
       key: "defination" as P,
-      children: <Defination />,
-    },
-    {
-      label: "token配置",
-      key: "tokenconfig" as P,
-      children: <TokenConfig />,
+      children: <Defination outputs={outputs} onConfirm={onConfirm} />,
     },
   ];
+  if (tokenConfig) {
+    tabItems.push({
+      label: "token配置",
+      key: "tokenconfig" as P,
+      children: <TokenConfig tokenConfig={tokenConfig} onConfirm={onConfirm} />,
+    });
+  }
 
   return (
     <div className=" px-[24px] pt-[12px] pb-[24px] bg-[#f6f8fb]">

@@ -30,13 +30,49 @@ export const ManagerModel = createCustomModel(() => {
   });
 
   const { mutateAsync: updateConnectorAuth } = useMutation({
-    mutationKey: ["updateConnectorInfo"],
+    mutationKey: ["updateConnectorAuth"],
     mutationFn: (authData: Partial<IpaasAuthProtocel>) => {
       return updateConnector({
         authprotocel: {
           ...data!.authprotocel,
           ...authData,
         },
+      });
+    },
+  });
+
+  const { mutateAsync: addConnectorAction } = useMutation({
+    mutationKey: ["addConnectorAction"],
+    mutationFn: (actionData: Partial<IpaasAction>) => {
+      return updateConnector({
+        actions: ([] as any[]).concat(data!.actions || [], actionData),
+      });
+    },
+  });
+
+  const { mutateAsync: updateConnectorActionByList } = useMutation({
+    mutationKey: ["updateConnectorActionByList"],
+    mutationFn: (actionList: IpaasAction[]) => {
+      return updateConnector({
+        actions: actionList,
+      });
+    },
+  });
+
+  const { mutateAsync: updateConnectorAction } = useMutation({
+    mutationKey: ["updateConnectorAction"],
+    mutationFn: (actionData: Partial<IpaasAction>) => {
+      const actionList = data!.actions!.map((action) => {
+        if (action.code === actionData.code) {
+          return {
+            ...action,
+            ...actionData,
+          };
+        }
+        return action;
+      });
+      return updateConnector({
+        actions: actionList,
       });
     },
   });
@@ -54,5 +90,8 @@ export const ManagerModel = createCustomModel(() => {
     isInitLoading: !initRef.current,
     updateConnector,
     updateConnectorAuth,
+    addConnectorAction,
+    updateConnectorActionByList,
+    updateConnectorAction,
   };
 });
