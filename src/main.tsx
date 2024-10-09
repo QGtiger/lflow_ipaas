@@ -21,6 +21,7 @@ window.React = React;
 
 import "./index.css";
 import { clientConfig } from "./api/request";
+import { globalContext } from "./constant";
 
 type ReactFunctionComponent = (props: any) => JSX.Element | null;
 
@@ -149,6 +150,9 @@ renderWithQiankun({
     // 传递请求实例
     if (props.requestClient) {
       clientConfig.ins = props.requestClient;
+    }
+    if (props.parentWindow) {
+      globalContext.rawWindow = props.parentWindow;
     }
     render(props);
   },

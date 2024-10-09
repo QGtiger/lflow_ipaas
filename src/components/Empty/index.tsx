@@ -1,6 +1,6 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
-import EmptyIcon from '@/assets/images/overview/empty.png';
+import { PlusOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import EmptyIcon from "@/assets/images/overview/empty.png";
 
 export default function Empty({
   btnText,
@@ -12,7 +12,7 @@ export default function Empty({
   desc: string;
 }) {
   return (
-    <div className="empty flex flex-col gap-[12px] justify-center items-center h-full">
+    <div className="empty flex flex-col gap-[12px] justify-center items-center">
       <img src={EmptyIcon} className="w-[145px] h-[100px]" />
       <span>{desc}</span>
       <Button type="primary" icon={<PlusOutlined />} onClick={btnClick}>

@@ -76,7 +76,9 @@ export default function Overview() {
         title: "新建连接器",
         schema: editorConnetorSchema,
         async onFinished(values) {
-          return addConnectorMutateAsync(values);
+          return addConnectorMutateAsync(values).then(() => {
+            // TODO 跳转到编辑页面
+          });
         },
       });
     },

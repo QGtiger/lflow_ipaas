@@ -1,3 +1,4 @@
+import { globalContext } from "@/constant";
 import { cloneDeep } from "@/utils";
 import { createMessage } from "@/utils/customMessage";
 import { createModal } from "@/utils/customModal";
@@ -123,7 +124,10 @@ export default function useRouteBlock(config: {
   ) => {
     withOutCheckRef.current = true;
     nav(path, options);
-    withOutCheckRef.current = false;
+    // FIXME: 主应用会刷新，很奇怪，先加个延时，解决吧
+    setTimeout(() => {
+      withOutCheckRef.current = false;
+    });
   };
 
   const getCurrFormData = () => {
@@ -252,7 +256,7 @@ export default function useRouteBlock(config: {
 
   // 修改过才会触发
   useEffect(() => {
-    const _window = window.rawWindow || window;
+    const _window = globalContext.rawWindow || window;
     if (hasChanged) {
       // 在组件挂载后，添加事件监听器
       _window.addEventListener("beforeunload", beforeUnloadHandler);
@@ -275,5 +279,6 @@ export default function useRouteBlock(config: {
     makeFormConfirm,
     createCustomModal,
     formLoading,
+    setHasChanged,
   };
 }
