@@ -1,9 +1,9 @@
-import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
 import { Alert, Button, FormInstance } from "antd";
 import { useRef } from "react";
 import AuthType from "./AuthType";
 import useRouteBlock from "@/hooks/useRouteBlock";
 import { ManagerModel } from "../../model";
+import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
 
 const _editorMap = {
   AuthType,
@@ -86,7 +86,7 @@ export default function AuthMethod() {
         showIcon
       />
       <div className="mt-4">
-        <IPaasSchemaForm
+        <CustomIPaasSchemaForm
           ref={formRef}
           initialValues={authprotocel}
           schema={AuthMethodSchema}

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import useAction from "./useAction";
 import { ManagerModel } from "@/pages/manager/model";
 import { AddActionSchema } from "../schema";
-import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
+import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
 
 export default function BaseActionInfo() {
   const formRef = useRef<FormInstance>(null);
@@ -27,12 +27,12 @@ export default function BaseActionInfo() {
 
   return (
     <div>
-      <IPaasSchemaForm
+      <CustomIPaasSchemaForm
         onValuesChange={formChange}
         ref={formRef}
         initialValues={actionDetail}
         schema={AddActionSchema}
-      ></IPaasSchemaForm>
+      ></CustomIPaasSchemaForm>
       <Button
         type="primary"
         disabled={disabled}

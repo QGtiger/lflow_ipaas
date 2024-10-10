@@ -20,6 +20,9 @@ dependencies:
   '@dnd-kit/utilities':
     specifier: ^3.2.2
     version: 3.2.2(react@18.3.1)
+  '@lightfish/ipaas-schemaform':
+    specifier: 1.0.1-beta
+    version: 1.0.1-beta(@types/react@18.3.9)(monaco-editor@0.52.0)(react-dom@18.3.1)
   '@monaco-editor/react':
     specifier: ^4.6.0
     version: 4.6.0(monaco-editor@0.52.0)(react-dom@18.3.1)(react@18.3.1)
@@ -788,6 +791,27 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
     dev: true
+
+  /@lightfish/ipaas-schemaform@1.0.1-beta(@types/react@18.3.9)(monaco-editor@0.52.0)(react-dom@18.3.1):
+    resolution: {integrity: sha512-IPgO9Tlb4iOwASV9DZvbiGjYBoNSJbMIZ7LS8iq8dxDcWlLs/yExbw7TWpY/m3PhINAERedOjdMvlwOOY5vWDQ==}
+    dependencies:
+      '@ant-design/icons': 5.5.1(react-dom@18.3.1)(react@18.3.1)
+      '@monaco-editor/react': 4.6.0(monaco-editor@0.52.0)(react-dom@18.3.1)(react@18.3.1)
+      ahooks: 3.8.1(react@18.3.1)
+      antd: 5.20.6(react-dom@18.3.1)(react@18.3.1)
+      classnames: 2.5.1
+      github-markdown-css: 5.7.0
+      react: 18.3.1
+      react-markdown: 9.0.1(@types/react@18.3.9)(react@18.3.1)
+    transitivePeerDependencies:
+      - '@types/react'
+      - date-fns
+      - luxon
+      - moment
+      - monaco-editor
+      - react-dom
+      - supports-color
+    dev: false
 
   /@monaco-editor/loader@1.4.0(monaco-editor@0.52.0):
     resolution: {integrity: sha512-00ioBig0x642hytVspPl7DbQyaSWRaolYie/UFNjoTdvoKPzo6xrXLhTk9ixgIKcLH5b5vDOjVNiGyY+uDCUlg==}

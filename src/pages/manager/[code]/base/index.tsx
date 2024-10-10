@@ -1,10 +1,10 @@
 import PageContainer from "@/components/PageContainer";
 import { Button, FormInstance } from "antd";
 import { useMemo, useRef } from "react";
-import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
 import { ManagerModel } from "../../model";
 import { editorConnetorSchema } from "@/pages/schema";
 import useRouteBlock from "@/hooks/useRouteBlock";
+import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
 
 export default function Base() {
   const { connectorVersionInfo, updateConnector } = ManagerModel.useModel();
@@ -29,13 +29,13 @@ export default function Base() {
 
   return (
     <PageContainer title="基本信息">
-      <IPaasSchemaForm
+      <CustomIPaasSchemaForm
         ref={formRef}
         initialValues={baseInfo}
         layout="vertical"
         schema={editorConnetorSchema}
         onValuesChange={formChange}
-      ></IPaasSchemaForm>
+      ></CustomIPaasSchemaForm>
       <Button
         loading={formLoading}
         type="primary"

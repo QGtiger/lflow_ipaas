@@ -12,7 +12,6 @@ import "quill/dist/quill.snow.css";
 import "./index.css";
 import { convertOpsToString, convertStrToQuillDelta } from "./utils";
 import "./embed/CustomTag";
-import { IPaasCommonFormFieldProps } from "../../../../components/IPaasSchemaForm/type";
 import useBuiltInValue from "../useBuiltInValue";
 
 const handleCustomMatcher = (node: any, delta: any) => {

@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { IPaasCommonFormFieldProps } from "@/components/IPaasSchemaForm/type";
 
 const AuthTypeEnum: Record<
   string,

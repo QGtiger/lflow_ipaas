@@ -1,5 +1,5 @@
 import { Form, Select } from "antd";
-import useEditor from "../IPaasSchemaForm/hooks/useEditor";
+import VarEditor from "@/pages/manager/components/VarEditor";
 
 const OptionsMap: Record<HttpMethodEnum, string> = {
   GET: "GET",
@@ -15,7 +15,7 @@ const Options = Object.entries(OptionsMap).map(([value, label]) => ({
 }));
 
 export default function MethodUrl() {
-  const InputComponent = useEditor("VarEditor");
+  const InputComponent = VarEditor;
   return (
     <div className="flex gap-2 items-center">
       <Form.Item name="method" noStyle>

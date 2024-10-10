@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { Dropdown, FormInstance, Input, Select } from "antd";
-import { Button, Form, Table } from "antd";
+import {
+  Dropdown,
+  FormInstance,
+  Input,
+  Select,
+  Button,
+  Form,
+  Table,
+} from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import { v4 as uuidV4 } from "uuid";
-import { IPaasCommonFormFieldProps } from "../IPaasSchemaForm/type";
 import { createSchemaFormModal } from "@/utils/customModal";
 import { transform } from "@/utils/transform";
 

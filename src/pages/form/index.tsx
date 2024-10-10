@@ -1,11 +1,11 @@
-import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
+import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
 import { FormInstance } from "antd";
 import { useRef } from "react";
 
 export default function FormPage() {
   const formRef = useRef<FormInstance>(null);
   return (
-    <IPaasSchemaForm
+    <CustomIPaasSchemaForm
       ref={formRef}
       schema={[
         {

@@ -1,4 +1,3 @@
-import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
 import { FIELDINDEX } from "@/constant";
 import useRouteBlock from "@/hooks/useRouteBlock";
 import useRouter from "@/hooks/useRouter";
@@ -11,6 +10,7 @@ import {
   EditorKindConfigSchemaMap,
   ExpertFormSchema,
 } from "./schema";
+import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
 
 const defaultFormField: Partial<IpaasFormSchema> = {
   // type: 'string',
@@ -106,7 +106,7 @@ export default function FieldEditor({
       forceRender: true,
       children: (
         <div>
-          <IPaasSchemaForm
+          <CustomIPaasSchemaForm
             ref={form1Ref}
             initialValues={_initialFormField}
             layout="vertical"
@@ -167,7 +167,7 @@ export default function FieldEditor({
       key: "expert",
       forceRender: true,
       children: (
-        <IPaasSchemaForm
+        <CustomIPaasSchemaForm
           ref={form2Ref}
           onValuesChange={formChange}
           schema={ExpertFormSchema}

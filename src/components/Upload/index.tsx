@@ -3,7 +3,6 @@ import CameraIcon from "@/assets/images/icons/camera.png";
 import { useRef } from "react";
 import { cropImage, upload } from "./utils";
 import { message } from "antd";
-import { IPaasCommonFormFieldProps } from "../../type";
 
 export default function Upload(props: IPaasCommonFormFieldProps<string>) {
   const inputRef = useRef<HTMLInputElement>(null);

@@ -13,6 +13,7 @@ export const EditorKindEnum: Record<ExtractEditorKinds, string> = {
   Switch: "开关",
   Textarea: "多行文本",
   Upload: "图片上传",
+  CodeEditor: "代码编辑器",
 };
 
 const TypeOptions: Record<FieldType, ExtractEditorKinds[]> = {
@@ -142,6 +143,7 @@ export const EditorKindConfigSchemaMap: Record<
     defaultKind: "InputNumber",
   }),
   Upload: [],
+  CodeEditor: [],
   PlainText: [
     {
       name: "Markdown内容",

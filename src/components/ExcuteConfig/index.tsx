@@ -1,5 +1,4 @@
 import { Button, Segmented, Tabs, TabsProps } from "antd";
-import { IPaasSchemaForm } from "../IPaasSchemaForm";
 import { useMemo, useRef } from "react";
 import MethodUrl from "./MethodUrl";
 import HttpConfig from "./HttpConfig";
@@ -9,8 +8,7 @@ import { createModal } from "@/utils/customModal";
 import { FormInstance } from "antd/lib";
 import useRouteBlock from "@/hooks/useRouteBlock";
 import useRouter from "@/hooks/useRouter";
-
-import VarEditor from "@/pages/manager/components/VarEditor";
+import CustomIPaasSchemaForm from "../CustomIPaasSchemaForm";
 
 type UpdateConfirm = (
   data: Partial<{
@@ -152,13 +150,12 @@ function Excute(props: {
           });
         }}
       />
-      <IPaasSchemaForm
+      <CustomIPaasSchemaForm
         ref={form1Ref}
         schema={formSchema}
         editorMap={{
           MethodUrl,
           HttpConfig,
-          VarEditor,
         }}
         initialValues={_initialValue}
         onValuesChange={formChange}
@@ -237,7 +234,7 @@ function Defination(props: {
 
   return (
     <div>
-      <IPaasSchemaForm
+      <CustomIPaasSchemaForm
         ref={form2Ref}
         initialValues={_initialValue}
         schema={outputsSchema}
@@ -300,7 +297,7 @@ function TokenConfig({
 
   return (
     <div>
-      <IPaasSchemaForm
+      <CustomIPaasSchemaForm
         ref={formRef}
         initialValues={tokenConfig}
         schema={tokenConfigSchema}

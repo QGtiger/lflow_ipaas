@@ -1,4 +1,5 @@
-import { IPaasSchemaForm } from "@/components/IPaasSchemaForm";
+import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
+import { IPaasSchemaForm } from "@lightfish/ipaas-schemaform";
 import { FormInstance, ModalFuncProps } from "antd";
 import { HookAPI } from "antd/es/modal/useModal";
 import { createRef } from "react";
@@ -33,11 +34,11 @@ export const createSchemaFormModal = function <
     width: 704,
     content: (
       <div className="mt-3">
-        <IPaasSchemaForm
+        <CustomIPaasSchemaForm
           layout="vertical"
           ref={formRef}
           schema={config.schema}
-        ></IPaasSchemaForm>
+        ></CustomIPaasSchemaForm>
       </div>
     ),
     onOk: () => {
