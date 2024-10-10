@@ -3,6 +3,9 @@ import { forwardRef, useMemo } from "react";
 import Upload from "../Upload";
 import { FormInstance } from "antd";
 
+import "@lightfish/ipaas-schemaform/styles.css";
+import "@lightfish/ipaas-schemaform/tailwind.css";
+
 type IProps = React.ComponentProps<typeof IPaasSchemaForm>;
 
 const CustomIPaasSchemaForm = forwardRef<FormInstance, IProps>((props, ref) => {

@@ -21,8 +21,8 @@ dependencies:
     specifier: ^3.2.2
     version: 3.2.2(react@18.3.1)
   '@lightfish/ipaas-schemaform':
-    specifier: 1.0.1-beta
-    version: 1.0.1-beta(@types/react@18.3.9)(monaco-editor@0.52.0)(react-dom@18.3.1)
+    specifier: 1.0.1-beta.2
+    version: 1.0.1-beta.2(@types/react@18.3.9)(monaco-editor@0.52.0)(react-dom@18.3.1)
   '@monaco-editor/react':
     specifier: ^4.6.0
     version: 4.6.0(monaco-editor@0.52.0)(react-dom@18.3.1)(react@18.3.1)
@@ -50,9 +50,6 @@ dependencies:
   dotenv-expand:
     specifier: ^11.0.6
     version: 11.0.6
-  github-markdown-css:
-    specifier: ^5.7.0
-    version: 5.7.0
   qiankun:
     specifier: ^2.10.16
     version: 2.10.16
@@ -68,9 +65,6 @@ dependencies:
   react-error-boundary:
     specifier: ^3.1.4
     version: 3.1.4(react@18.3.1)
-  react-markdown:
-    specifier: ^9.0.1
-    version: 9.0.1(@types/react@18.3.9)(react@18.3.1)
   react-router-dom:
     specifier: ^6.23.1
     version: 6.23.1(react-dom@18.3.1)(react@18.3.1)
@@ -792,8 +786,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.5.0
     dev: true
 
-  /@lightfish/ipaas-schemaform@1.0.1-beta(@types/react@18.3.9)(monaco-editor@0.52.0)(react-dom@18.3.1):
-    resolution: {integrity: sha512-IPgO9Tlb4iOwASV9DZvbiGjYBoNSJbMIZ7LS8iq8dxDcWlLs/yExbw7TWpY/m3PhINAERedOjdMvlwOOY5vWDQ==}
+  /@lightfish/ipaas-schemaform@1.0.1-beta.2(@types/react@18.3.9)(monaco-editor@0.52.0)(react-dom@18.3.1):
+    resolution: {integrity: sha512-jDfnUqTgVNCJDMxlCGPuMAyUXOhGHoQKeU3RzpvckABmHibOyXewmXBJbuRDJHpkpnrN7GMSY/RA1LChRdwvWQ==}
     dependencies:
       '@ant-design/icons': 5.5.1(react-dom@18.3.1)(react@18.3.1)
       '@monaco-editor/react': 4.6.0(monaco-editor@0.52.0)(react-dom@18.3.1)(react@18.3.1)
