@@ -1,4 +1,5 @@
 import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
+import GithubMarkdown from "@/components/GithubMarkdown";
 import { IPaasSchemaForm } from "@lightfish/ipaas-schemaform";
 import { FormInstance, ModalFuncProps } from "antd";
 import { HookAPI } from "antd/es/modal/useModal";
@@ -25,6 +26,7 @@ export const createSchemaFormModal = function <
   schema: IpaasFormSchema[];
   onFinished: (values: T) => Promise<any>;
   schemaFormProps?: Partial<Parameters<typeof IPaasSchemaForm>[0]>;
+  topDesc?: string;
 }) {
   const formRef = createRef<FormInstance>();
   const ins = ModalRef.current.confirm({
@@ -33,12 +35,15 @@ export const createSchemaFormModal = function <
     icon: null,
     width: 704,
     content: (
-      <div className="mt-3">
-        <CustomIPaasSchemaForm
-          layout="vertical"
-          ref={formRef}
-          schema={config.schema}
-        ></CustomIPaasSchemaForm>
+      <div className="mt-4">
+        <GithubMarkdown>{config.topDesc}</GithubMarkdown>
+        <div className="mt-3">
+          <CustomIPaasSchemaForm
+            layout="vertical"
+            ref={formRef}
+            schema={config.schema}
+          ></CustomIPaasSchemaForm>
+        </div>
       </div>
     ),
     onOk: () => {
