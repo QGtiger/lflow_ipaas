@@ -2,11 +2,17 @@ import { request } from "@/api/request";
 import { createCustomModel } from "@/common/createModel";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { ConnectorPreviewModel } from "./components/ConnectorPreview/context";
+import { createSchemaFormModal } from "@/utils/customModal";
+import { AddActionSchema } from "./[code]/action/schema";
+import { generateShortId } from "@/utils";
 
 export const ManagerModel = createCustomModel(() => {
   const { code } = useParams<{ code: string }>();
   const initRef = useRef(false);
+  const { setConnectorFinalData } = ConnectorPreviewModel.useModel();
+  const nav = useNavigate();
 
   const { refetch, data, isFetching } = useQuery({
     queryKey: ["queryConnectorInfo", code],
@@ -14,6 +20,9 @@ export const ManagerModel = createCustomModel(() => {
       return request<IpaasConnectorVersion>({
         url: "/ipaas/connector/" + code,
         method: "GET",
+      }).then((res) => {
+        setConnectorFinalData(res);
+        return res;
       });
     },
   });
@@ -59,6 +68,19 @@ export const ManagerModel = createCustomModel(() => {
     },
   });
 
+  const addActionWithRedirect = () => {
+    createSchemaFormModal({
+      title: "新建执行操作",
+      schema: AddActionSchema,
+      async onFinished(values) {
+        const actionCode = (values.code = `action_${generateShortId()}`);
+        return addConnectorAction(values as any).then(() => {
+          nav(`/manager/${code}/action/${actionCode}`);
+        });
+      },
+    });
+  };
+
   const { mutateAsync: updateConnectorAction } = useMutation({
     mutationKey: ["updateConnectorAction"],
     mutationFn: (actionData: Partial<IpaasAction>) => {
@@ -93,5 +115,6 @@ export const ManagerModel = createCustomModel(() => {
     addConnectorAction,
     updateConnectorActionByList,
     updateConnectorAction,
+    addActionWithRedirect,
   };
 });

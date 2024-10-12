@@ -8,7 +8,7 @@ const ACCESS_TOKEN_KEY = "access_token";
 const debugToken =
   process.env.NODE_ENV === "production" || qiankunWindow.__POWERED_BY_QIANKUN__
     ? ""
-    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJuYW1lIjoic3VpZmVuZyIsImVtYWlsIjoiMTA2OTU2ODY3M0BxcS5jb20iLCJpYXQiOjE3Mjg1NjE4MTgsImV4cCI6MTcyODY0ODIxOH0.w0QbmG2knXiEoOalVSSDuXBYwZRKMuDvzkT0VrKCO4U";
+    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJuYW1lIjoic3VpZmVuZyIsImVtYWlsIjoiMTA2OTU2ODY3M0BxcS5jb20iLCJpYXQiOjE3Mjg2OTkxMzMsImV4cCI6MTcyODc4NTUzM30.2AURvCuN8mghZlToLZvWLip9BYLYDGF1unBfrLkb4vw";
 
 export const requestConfig = {
   // 临时 token

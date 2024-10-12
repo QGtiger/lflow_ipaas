@@ -5,9 +5,12 @@ import { ManagerModel } from "../../model";
 import { editorConnetorSchema } from "@/pages/schema";
 import useRouteBlock from "@/hooks/useRouteBlock";
 import CustomIPaasSchemaForm from "@/components/CustomIPaasSchemaForm";
+import ConnectorPreview from "../../components/ConnectorPreview";
+import { ConnectorPreviewModel } from "../../components/ConnectorPreview/context";
 
 export default function Base() {
   const { connectorVersionInfo, updateConnector } = ManagerModel.useModel();
+  const { setConnectorDraftData } = ConnectorPreviewModel.useModel();
 
   const baseInfo = useMemo(() => {
     if (!connectorVersionInfo) return {};
@@ -25,10 +28,13 @@ export default function Base() {
     formInstanceListRef: [formRef],
     originData: baseInfo,
     onConfirm: updateConnector,
+    onValuesChange: (changedValues, allValues) => {
+      setConnectorDraftData(allValues);
+    },
   });
 
   return (
-    <PageContainer title="基本信息">
+    <PageContainer title="基本信息" extra={<ConnectorPreview />}>
       <CustomIPaasSchemaForm
         ref={formRef}
         initialValues={baseInfo}

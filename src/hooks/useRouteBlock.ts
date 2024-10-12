@@ -106,6 +106,7 @@ export default function useRouteBlock(config: {
   onConfirm?: (data: any) => Promise<any>; // 离开页面前的回调
   onAfterConfirm?: () => void; // 关闭弹窗后的回调
   onOriginDataChange?: (data: any) => void; // 原始数据变化时的回调
+  onValuesChange?: (changedValues: any, allValues: any) => void; // 表单值变化时的回调
 }) {
   const [formDisabled, setDisabled] = useState(true);
   const [hasChanged, setHasChanged] = useState(false);
@@ -136,7 +137,8 @@ export default function useRouteBlock(config: {
   };
 
   const { run: formChange } = useDebounceFn(
-    () => {
+    (a, b) => {
+      latestConfig.current.onValuesChange?.(a, b);
       // 判断表单数据是否发生变化
       setHasChanged(
         !objectSecurityCheck(latestConfig.current.originData, getCurrFormData())

@@ -50,6 +50,9 @@ dependencies:
   dotenv-expand:
     specifier: ^11.0.6
     version: 11.0.6
+  github-markdown-css:
+    specifier: ^5.7.0
+    version: 5.7.0
   qiankun:
     specifier: ^2.10.16
     version: 2.10.16
@@ -65,6 +68,9 @@ dependencies:
   react-error-boundary:
     specifier: ^3.1.4
     version: 3.1.4(react@18.3.1)
+  react-markdown:
+    specifier: ^9.0.1
+    version: 9.0.1(@types/react@18.3.9)(react@18.3.1)
   react-router-dom:
     specifier: ^6.23.1
     version: 6.23.1(react-dom@18.3.1)(react@18.3.1)
@@ -118,6 +124,9 @@ devDependencies:
   tailwindcss:
     specifier: ^3.4.13
     version: 3.4.13
+  tailwindcss-line-clamp:
+    specifier: ^1.0.5
+    version: 1.0.5
   typescript:
     specifier: ^5.5.3
     version: 5.6.2
@@ -2768,7 +2777,6 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: false
 
   /longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
@@ -4432,6 +4440,12 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+    dev: true
+
+  /tailwindcss-line-clamp@1.0.5:
+    resolution: {integrity: sha512-tLqJAarIrz9Hgs3P3d98i329PN3vEYADabONPUJ1lccoJz/47Z8Vfhol9XfgjB1sQRZ+A4kdWIfwNJDHdnN1DQ==}
+    dependencies:
+      lodash: 4.17.21
     dev: true
 
   /tailwindcss@3.4.13:

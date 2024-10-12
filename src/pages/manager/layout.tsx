@@ -2,6 +2,7 @@ import { useOutlet } from "react-router-dom";
 import { ManagerModel } from "./model";
 import { Skeleton } from "antd";
 import Menu from "./components/Menu";
+import { ConnectorPreviewModel } from "./components/ConnectorPreview/context";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function ManagerLayout() {
@@ -29,8 +30,10 @@ function ManagerLayout() {
 // eslint-disable-next-line react-refresh/only-export-components
 export default () => {
   return (
-    <ManagerModel.Provider>
-      <ManagerLayout />
-    </ManagerModel.Provider>
+    <ConnectorPreviewModel.Provider>
+      <ManagerModel.Provider>
+        <ManagerLayout />
+      </ManagerModel.Provider>
+    </ConnectorPreviewModel.Provider>
   );
 };

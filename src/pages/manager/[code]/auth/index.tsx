@@ -5,6 +5,7 @@ import AuthMethod from "./AuthMethod";
 import ViewMetaInputs from "@/components/ViewMetaInputs";
 import { ManagerModel } from "../../model";
 import ExcuteConfig from "@/components/ExcuteConfig";
+import ConnectorPreview from "../../components/ConnectorPreview";
 
 const RouterQueryTabKey = "tabKey";
 
@@ -54,7 +55,7 @@ export default function AuthPage() {
   ];
 
   return (
-    <PageContainer title={`授权配置`}>
+    <PageContainer title={`授权配置`} extra={<ConnectorPreview />}>
       <div className="mt-[-10px]">
         <Tabs
           destroyInactiveTabPane={true}

@@ -6,6 +6,7 @@ import useRouter from "@/hooks/useRouter";
 import ViewMetaInputs from "@/components/ViewMetaInputs";
 import { ManagerModel } from "@/pages/manager/model";
 import ExcuteConfig from "@/components/ExcuteConfig";
+import ConnectorPreview from "@/pages/manager/components/ConnectorPreview";
 
 const RouterQueryTabKey = "tabKey";
 
@@ -56,7 +57,10 @@ export default function ActionCode() {
   ];
 
   return (
-    <PageContainer title={`执行操作(${actionData?.name})`}>
+    <PageContainer
+      title={`执行操作(${actionData?.name})`}
+      extra={<ConnectorPreview />}
+    >
       <div className="mt-[-10px]">
         <Tabs
           destroyInactiveTabPane={true}

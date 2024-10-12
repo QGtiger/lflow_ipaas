@@ -11,13 +11,11 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { createSchemaFormModal } from "@/utils/customModal";
-import { AddActionSchema } from "./schema";
 import { useNavigate } from "react-router-dom";
-import { generateShortId } from "@/utils";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import Empty from "@/components/Empty";
+import ConnectorPreview from "../../components/ConnectorPreview";
 
 type DataType = IpaasAction;
 
@@ -80,7 +78,7 @@ const Row: React.FC<RowProps> = (props) => {
 export default () => {
   const {
     connectorVersionInfo: { actions },
-    addConnectorAction,
+    addActionWithRedirect,
     connectorCode,
     updateConnectorActionByList,
   } = ManagerModel.useModel();
@@ -107,19 +105,6 @@ export default () => {
         return arrayMove(prevState, activeIndex, overIndex);
       });
     }
-  };
-
-  const addActionWithRedirect = () => {
-    createSchemaFormModal({
-      title: "新建执行操作",
-      schema: AddActionSchema,
-      async onFinished(values) {
-        const actionCode = (values.code = `action_${generateShortId()}`);
-        return addConnectorAction(values as any).then(() => {
-          nav(`/manager/${connectorCode}/action/${actionCode}`);
-        });
-      },
-    });
   };
 
   const columns: TableColumnsType<DataType> = [
@@ -158,6 +143,7 @@ export default () => {
   return (
     <PageContainer
       title="执行操作"
+      extra={<ConnectorPreview />}
       containerMenu={
         <div>
           <Button
@@ -186,7 +172,7 @@ export default () => {
         </DndContext>
       ) : (
         <Empty
-          desc="暂无执行操作，一个连接器需要至少一个触发事件或执行操作"
+          desc="暂无执行操作，一个连接器需要至少一个执行操作"
           btnClick={addActionWithRedirect}
           btnText="新建执行操作"
         ></Empty>

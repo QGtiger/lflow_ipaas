@@ -3,6 +3,7 @@ import { forwardRef, useMemo } from "react";
 import Upload from "../Upload";
 import { FormInstance } from "antd";
 
+import "github-markdown-css";
 import "@lightfish/ipaas-schemaform/styles.css";
 import "@lightfish/ipaas-schemaform/tailwind.css";
 
