@@ -6,14 +6,14 @@ import Badge from "./Badge";
 
 export default function PreviewAuth() {
   const {
-    ConnectorPreviewData: { authprotocel, name },
+    ConnectorPreviewData: { authProtocol, name },
     authList,
     authIndex,
     PreviewModel,
     addAuthRecord,
   } = ConnectorPreviewModel.useModel();
 
-  if (authprotocel.type === "none") {
+  if (authProtocol.type === "none") {
     return <Alert message="无授权不需要配置" type="info" />;
   }
 

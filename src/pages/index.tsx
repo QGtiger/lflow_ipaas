@@ -38,7 +38,7 @@ async function queryConnectorList(): Promise<
     name: string;
     description: string;
     logo: string;
-    ispublished: boolean;
+    isPublished: boolean;
   }[]
 > {
   return request({
@@ -144,7 +144,7 @@ export default function Overview() {
                                         {
                                           key: "delete",
                                           label: "删除连接器",
-                                          disabled: item.ispublished,
+                                          disabled: item.isPublished,
                                           onClick: () => {
                                             createModal({
                                               title: `确认删除连接器: ${item.name}?`,
@@ -186,7 +186,7 @@ export default function Overview() {
                             </div>
                           </div>
                           <div className="inline-flex items-center gap-1 relative flex-[0_0_auto]">
-                            {item.ispublished && (
+                            {item.isPublished && (
                               <>
                                 <div className="inline-flex items-start gap-1 relative flex-[0_0_auto]">
                                   <div className="inline-flex items-center justify-center gap-2.5 pt-px pb-0.5 px-2.5 relative flex-[0_0_auto] mt-[-1.00px] mb-[-1.00px] ml-[-1.00px] mr-[-1.00px] bg-[#eefdfb] rounded-[10px] overflow-hidden">

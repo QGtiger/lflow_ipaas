@@ -40,10 +40,10 @@ export const ManagerModel = createCustomModel(() => {
 
   const { mutateAsync: updateConnectorAuth } = useMutation({
     mutationKey: ["updateConnectorAuth"],
-    mutationFn: (authData: Partial<IpaasAuthProtocel>) => {
+    mutationFn: (authData: Partial<IpaasauthProtocol>) => {
       return updateConnector({
-        authprotocel: {
-          ...data!.authprotocel,
+        authProtocol: {
+          ...data!.authProtocol,
           ...authData,
         },
       });

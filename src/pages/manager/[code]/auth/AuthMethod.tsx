@@ -12,7 +12,7 @@ const _editorMap = {
 export default function AuthMethod() {
   const formRef = useRef<FormInstance>(null);
   const { connectorVersionInfo, updateConnectorAuth } = ManagerModel.useModel();
-  const { authprotocel } = connectorVersionInfo || {};
+  const { authProtocol } = connectorVersionInfo || {};
 
   const {
     disabled,
@@ -22,7 +22,7 @@ export default function AuthMethod() {
     formLoading,
   } = useRouteBlock({
     formInstanceListRef: [formRef],
-    originData: authprotocel,
+    originData: authProtocol,
     async onConfirm(data) {
       return updateConnectorAuth(data);
     },
@@ -44,7 +44,7 @@ export default function AuthMethod() {
       onCancel() {
         formRef.current?.setFieldValue(
           key,
-          authprotocel[key as keyof typeof authprotocel]
+          authProtocol[key as keyof typeof authProtocol]
         );
         formChange();
       },
@@ -88,7 +88,7 @@ export default function AuthMethod() {
       <div className="mt-4">
         <CustomIPaasSchemaForm
           ref={formRef}
-          initialValues={authprotocel}
+          initialValues={authProtocol}
           schema={AuthMethodSchema}
           editorMap={_editorMap}
           onValuesChange={formChange}

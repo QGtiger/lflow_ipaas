@@ -18,7 +18,7 @@ export default function Base() {
       logo: connectorVersionInfo.logo,
       name: connectorVersionInfo.name,
       description: connectorVersionInfo.description,
-      documentlink: connectorVersionInfo.documentlink,
+      documentLink: connectorVersionInfo.documentLink,
     };
   }, [connectorVersionInfo]);
 

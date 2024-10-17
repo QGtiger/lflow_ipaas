@@ -25,7 +25,7 @@ interface ExcuteInfer {
   };
 }
 
-type IpaasAuthProtocel = {
+type IpaasauthProtocol = {
   type: "session_auth" | "app_key" | "none";
   doc?: string;
   inputs: Array<IpaasFormSchema>;
@@ -45,16 +45,16 @@ interface IpaasConnectorVersion {
   id: number;
   name: string;
   description: string;
-  documentlink?: string; // 连接器帮组文档链接
+  documentLink?: string; // 连接器帮组文档链接
   logo: string; // 连接器logo
   version: number; // 当前连接器版本
-  ispublished: boolean;
+  isPublished: boolean;
 
-  authprotocel: IpaasAuthProtocel;
+  authProtocol: IpaasauthProtocol;
   actions: IpaasAction[]; // 动作列表 JSON.stringify(IpaasAction[])
 
-  created_at: number;
-  updated_at: number;
+  createTime: number;
+  updateTime: number;
 }
 
 type IpaasAction = {

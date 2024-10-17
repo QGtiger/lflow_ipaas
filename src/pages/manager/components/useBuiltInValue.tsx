@@ -21,7 +21,7 @@ export default function useBuiltInValue() {
       inputs: authInputs,
       type: authType,
       outputs: authOutputs,
-    } = connectorVersionInfo.authprotocel;
+    } = connectorVersionInfo.authProtocol;
     const isNoAuth = authType === "none";
 
     if (pathname.includes("auth")) {
@@ -51,7 +51,7 @@ export default function useBuiltInValue() {
       authPropertyItem.children?.push({
         title: "授权输入参数",
         key: "property.auth.inputs",
-        children: connectorVersionInfo.authprotocel.inputs?.map((it) => {
+        children: connectorVersionInfo.authProtocol.inputs?.map((it) => {
           return {
             title: it.name,
             key: `property.auth.inputs.${it.code}`,

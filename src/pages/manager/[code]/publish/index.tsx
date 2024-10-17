@@ -8,7 +8,7 @@ import { createSchemaFormModal } from "@/utils/customModal";
 const columns: TableProps<any>["columns"] = [
   {
     title: "发布时间",
-    dataIndex: "pub_time",
+    dataIndex: "pubTime",
     key: "publishTime",
     width: 300,
     ellipsis: true,
@@ -22,14 +22,14 @@ const columns: TableProps<any>["columns"] = [
   },
   {
     title: "发布说明",
-    dataIndex: "pub_note",
+    dataIndex: "pubNote",
     ellipsis: true,
   },
 ];
 
 const publishConnectorSchema: IpaasFormSchema[] = [
   {
-    code: "note",
+    code: "pubNote",
     name: "发布说明",
     type: "string",
     required: true,

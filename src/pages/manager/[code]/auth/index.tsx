@@ -11,7 +11,7 @@ const RouterQueryTabKey = "tabKey";
 
 export default function AuthPage() {
   const {
-    connectorVersionInfo: { authprotocel },
+    connectorVersionInfo: { authProtocol },
     updateConnectorAuth,
   } = ManagerModel.useModel();
   const { navBySearchParam, searchParamsObj } = useRouter<{
@@ -29,7 +29,7 @@ export default function AuthPage() {
       key: "inputs",
       children: (
         <ViewMetaInputs
-          viewMetaInputs={authprotocel.inputs}
+          viewMetaInputs={authProtocol.inputs}
           onSave={(e) => {
             return updateConnectorAuth({
               inputs: e,
@@ -37,20 +37,20 @@ export default function AuthPage() {
           }}
         />
       ),
-      disabled: !authprotocel.type || authprotocel.type === "none",
+      disabled: !authProtocol.type || authProtocol.type === "none",
     },
     {
       label: "授权配置",
       key: "config",
       children: (
         <ExcuteConfig
-          excuteProtocol={authprotocel.excuteProtocol}
+          excuteProtocol={authProtocol.excuteProtocol}
           onConfirm={updateConnectorAuth}
-          outputs={authprotocel.outputs}
-          tokenConfig={authprotocel.tokenConfig || {}}
+          outputs={authProtocol.outputs}
+          tokenConfig={authProtocol.tokenConfig || {}}
         />
       ),
-      disabled: authprotocel.type !== "session_auth",
+      disabled: authProtocol.type !== "session_auth",
     },
   ];
 

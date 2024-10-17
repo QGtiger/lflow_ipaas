@@ -44,7 +44,7 @@ export const editorConnetorSchema: IpaasFormSchema[] = [
     }`,
   },
   {
-    code: "documentlink",
+    code: "documentLink",
     name: "帮助文档",
     type: "string",
     description: "请输入文档地址链接",

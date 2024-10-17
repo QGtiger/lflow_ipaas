@@ -14,7 +14,7 @@ type UpdateConfirm = (
   data: Partial<{
     excuteProtocol: ExcuteInfer;
     outputs: OutputStrcut[];
-    tokenConfig: IpaasAuthProtocel["tokenConfig"];
+    tokenConfig: IpaasauthProtocol["tokenConfig"];
   }>
 ) => Promise<any>;
 
@@ -280,7 +280,7 @@ function TokenConfig({
   tokenConfig,
   onConfirm,
 }: {
-  tokenConfig: IpaasAuthProtocel["tokenConfig"];
+  tokenConfig: IpaasauthProtocol["tokenConfig"];
   onConfirm: UpdateConfirm;
 }) {
   const formRef = useRef<FormInstance>(null);
@@ -320,7 +320,7 @@ type P = "excute" | "defination";
 export default function ExcuteConfig(props: {
   excuteProtocol: ExcuteInfer;
   outputs: OutputStrcut[];
-  tokenConfig?: IpaasAuthProtocel["tokenConfig"];
+  tokenConfig?: IpaasauthProtocol["tokenConfig"];
   onConfirm: UpdateConfirm;
 }) {
   const { excuteProtocol, onConfirm, outputs, tokenConfig } = props;

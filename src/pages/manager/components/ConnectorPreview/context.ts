@@ -26,8 +26,8 @@ export const ConnectorPreviewModel = createCustomModel(() => {
   const addAuthRecord = () => {
     return createSchemaFormModal({
       title: "添加授权",
-      schema: viewModel.data.authprotocel.inputs,
-      topDesc: viewModel.data.authprotocel.doc,
+      schema: viewModel.data.authProtocol.inputs,
+      topDesc: viewModel.data.authProtocol.doc,
       onFinished: async function (values: Record<string, any>): Promise<any> {
         // TODO 记得加一个接口 添加授权
         viewModel.authList.push({
